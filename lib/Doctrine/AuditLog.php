@@ -150,8 +150,11 @@ class Doctrine_AuditLog extends Doctrine_Record_Generator
      */
     public function getMaxVersion(Doctrine_Record $record)
     {
-        $className = $this->_options['className'];
-        $select = 'MAX(' . $className . '.' . $this->_options['version']['name'] . ') max_version';
+        if ($record->isNew()) {
+            return 0;
+        }
+        $className = get_class($record);
+        $select = $className . '.' . $this->_options['version']['name'] . ' max_version';
 
         foreach ((array) $this->_options['table']->getIdentifier() as $id) {
             $conditions[] = $className . '.' . $id . ' = ?';
@@ -165,22 +168,8 @@ class Doctrine_AuditLog extends Doctrine_Record_Generator
             ->forUpdate()
             ->where(implode(' AND ',$conditions));
 
-        // Try to execute the FOR UPDATE query
-        // this can result in a deadlock, in which case we should try again
-        $querySucceeded = false;
-        $num = 0;
-        do {
-            try {
-                $result = $q->execute($values, Doctrine_Core::HYDRATE_ARRAY);
-                $querySucceeded = true;
-            }
-            catch (Doctrine_Connection_Exception $e) {
-                if(++$num > 10 || strpos($e->getMessage(), 'SQLSTATE[40001]') === false) {
-                    // not a deadlock, or more than 10 tries? rethrow exception
-                    throw $e;
-                }
-            }
-        } while (!$querySucceeded);
+
+        $result = $q->execute($values, Doctrine_Core::HYDRATE_ARRAY);
 
         return isset($result[0]['max_version']) ? $result[0]['max_version']:0;
     }

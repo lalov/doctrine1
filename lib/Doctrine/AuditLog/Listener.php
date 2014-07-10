@@ -62,7 +62,7 @@ class Doctrine_AuditLog_Listener extends Doctrine_Record_Listener
         $name = $version['alias'] === null ? $version['name'] : $version['alias'];
 
         $conn = Doctrine_Manager::getInstance()->getCurrentConnection();
-        $conn->beginTransaction();
+        $conn->getDbh()->prepare('START TRANSACTION')->execute();
 
         $record = $event->getInvoker();
         $record->set($name, $this->_getNextVersion($record));
@@ -86,7 +86,7 @@ class Doctrine_AuditLog_Listener extends Doctrine_Record_Listener
             $version->save();
         }
         $conn = Doctrine_Manager::getInstance()->getCurrentConnection();
-        $conn->commit();
+        $conn->getDbh()->prepare('COMMIT')->execute();
     }
 
     public function postUpdate(Doctrine_Event $event)
