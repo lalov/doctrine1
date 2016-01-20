@@ -160,6 +160,10 @@ class Doctrine_AuditLog extends Doctrine_Record_Generator
             $conditions[] = $className . '.' . $id . ' = ?';
             $values[] = $record->get($id);
         }
+        if ($this->_options['table']->hasTemplate('SoftDelete')) {
+            $columnName = $this->_options['table']->getTemplate('SoftDelete')->getOption('name');
+            $conditions[] = '(' . $className . '.' . $columnName . ' IS NULL OR ' . $className . '.' . $columnName . ' IS NOT NULL)';
+        }
 
         // Lock the version table using 'FOR UPDATE'
         $q = Doctrine_Core::getTable($className)
