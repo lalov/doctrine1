@@ -2701,7 +2701,7 @@ abstract class Doctrine_Record extends Doctrine_Record_Abstract implements Count
 
             if ($deep) {
                 foreach ($this->_references as $name => $reference) {
-                    if ( ! ($reference instanceof Doctrine_Null)) {
+                    if ( ! ($reference instanceof Doctrine_Null || is_null($reference))) {
                         $reference->free($deep);
                     }
                 }
