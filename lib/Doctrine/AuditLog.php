@@ -43,7 +43,7 @@ class Doctrine_AuditLog extends Doctrine_Record_Generator
                                                              'type'   => 'integer',
                                                              'length' => 8,
                                                              'options' => array('primary' => true)),
-                                'tableName'         => false,
+                                'tableName'        => '%TABLE%_Version',
                                 'generateFiles'     => false,
                                 'table'             => false,
                                 'pluginTable'       => false,
@@ -150,18 +150,28 @@ class Doctrine_AuditLog extends Doctrine_Record_Generator
      */
     public function getMaxVersion(Doctrine_Record $record)
     {
-        $className = $this->_options['className'];
-        $select = 'MAX(' . $className . '.' . $this->_options['version']['name'] . ') max_version';
+        if ($record->isNew()) {
+            return 0;
+        }
+        $className = get_class($record);
+        $select = $className . '.' . $this->_options['version']['name'] . ' max_version';
 
         foreach ((array) $this->_options['table']->getIdentifier() as $id) {
             $conditions[] = $className . '.' . $id . ' = ?';
             $values[] = $record->get($id);
         }
+        if ($this->_options['table']->hasTemplate('SoftDelete')) {
+            $columnName = $this->_options['table']->getTemplate('SoftDelete')->getOption('name');
+            $conditions[] = '(' . $className . '.' . $columnName . ' IS NULL OR ' . $className . '.' . $columnName . ' IS NOT NULL)';
+        }
 
+        // Lock the version table using 'FOR UPDATE'
         $q = Doctrine_Core::getTable($className)
             ->createQuery()
             ->select($select)
+            ->forUpdate()
             ->where(implode(' AND ',$conditions));
+
 
         $result = $q->execute($values, Doctrine_Core::HYDRATE_ARRAY);
 
