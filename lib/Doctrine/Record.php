@@ -2733,4 +2733,9 @@ abstract class Doctrine_Record extends Doctrine_Record_Abstract implements Count
     {
         return (string) $this->_oid;
     }
+
+    public function __debugInfo()
+    {
+        return $this->toArray(false);
+    }
 }
