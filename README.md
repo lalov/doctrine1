@@ -1,10 +1,9 @@
 # Doctrine 1 fork
 
-This is a maintained Doctrine 1 fork you can use in your projects using Composer.
+This is a unmaintained Doctrine 1 fork.
 
-There are two versions: `dev` and `master`.
-`master` is fully backwards-compatible with the latest original
-Doctrine 1 release. `dev` contains more fixes.
+The current goal is to make it work with a Symfony 1.4 project, with php 7.1
+
 
 ## Usage
 
