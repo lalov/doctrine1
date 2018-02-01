@@ -55,7 +55,6 @@ class Doctrine_Relation_ForeignKey extends Doctrine_Relation
             if ( ! $record->exists() || empty($id) || 
                  ! $this->definition['table']->getAttribute(Doctrine_Core::ATTR_LOAD_REFERENCES)) {
                 
-                trigger_error('Doctrine Implicit object creation', E_USER_NOTICE);
                 $related = $this->getTable()->create();
             } else {
                 $dql  = 'FROM ' . $this->getTable()->getComponentName()

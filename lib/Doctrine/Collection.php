@@ -1067,9 +1067,4 @@ class Doctrine_Collection extends Doctrine_Access implements Countable, Iterator
         } 
         return $dirty; 
     }
-
-    public function __debugInfo()
-    {
-        return $this->data;
-    }
 }

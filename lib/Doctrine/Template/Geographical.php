@@ -40,11 +40,11 @@ class Doctrine_Template_Geographical extends Doctrine_Template
      * @var string
      */
     protected $_options = array('latitude' =>  array('name'     =>  'latitude',
-                                                     'type'     =>  'double(18,8)',
+                                                     'type'     =>  'double',
                                                      'size'     =>  null,
                                                      'options'  =>  array()),
                                 'longitude' => array('name'     =>  'longitude',
-                                                     'type'     =>  'double(18,8)',
+                                                     'type'     =>  'double',
                                                      'size'     =>  null,
                                                      'options'  =>  array()));
 

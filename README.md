@@ -1,24 +1,6 @@
-# Doctrine 1 fork
+[![Build Status](https://travis-ci.org/diablomedia/doctrine1.png)](https://travis-ci.org/diablomedia/doctrine1) [![codecov](https://codecov.io/gh/diablomedia/doctrine1/branch/master/graph/badge.svg)](https://codecov.io/gh/diablomedia/doctrine1)
 
-This is a unmaintained Doctrine 1 fork.
+Doctrine 1 ORM
+=============
 
-The current goal is to make it work with a Symfony 1.4 project, with php 7.1
-
-
-## Usage
-
-Use the `dev-dev` version string for the latest doctrine1,
-and `dev-master` for the backwards-compatible one:
-
-```json
-{
-  "require": {
-    "drak/doctrine1": "dev-dev"
-  }
-}
-```
-
-## List of backwards-incompatible changes on `dev`
-
-* `whereIn` with an empty array now restricts query to returning nothing instead of returning
-everything ([issue #15](https://github.com/drak/doctrine1/pull/15))
+Old school Doctrine 1.0 repo that is maintained to the point that major blockers are fixed, and kept up to date to work with current PHP versions for as long as we're using the library.
