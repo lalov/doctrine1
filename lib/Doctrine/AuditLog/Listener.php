@@ -80,7 +80,11 @@ class Doctrine_AuditLog_Listener extends Doctrine_Record_Listener
             $record  = $event->getInvoker();
             $version = new $class();
             $version->merge($record->toArray(), false);
-            $version->save();
+            try {
+                $version->save();
+            } catch (Exception $e) {
+
+            }
         }
     }
 
@@ -134,7 +138,10 @@ class Doctrine_AuditLog_Listener extends Doctrine_Record_Listener
 
             $version = new $class();
             $version->merge($record->toArray(), false);
-            $version->save();
+            try {
+                $version->save();
+            } catch (Exception $e) {
+            }
         }
     }
 
