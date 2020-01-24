@@ -43,10 +43,10 @@ class Doctrine_Connection_UnitOfWork extends Doctrine_Connection_Module
      * Saves the given record and all associated records.
      * (The save() operation is always cascaded in 0.10/1.0).
      *
-     * @param Doctrine_Record $record
+     * @param sfDoctrineRecord $record
      * @return void
      */
-    public function saveGraph(Doctrine_Record $record, $replace = false)
+    public function saveGraph(sfDoctrineRecord $record, $replace = false)
     {
         $record->assignInheritanceValues();
 
@@ -54,11 +54,11 @@ class Doctrine_Connection_UnitOfWork extends Doctrine_Connection_Module
         $conn->connect();
 
         $state = $record->state();
-        if ($state === Doctrine_Record::STATE_LOCKED || $state === Doctrine_Record::STATE_TLOCKED) {
+        if ($state === sfDoctrineRecord::STATE_LOCKED || $state === sfDoctrineRecord::STATE_TLOCKED) {
             return false;
         }
 
-        $record->state($record->exists() ? Doctrine_Record::STATE_LOCKED : Doctrine_Record::STATE_TLOCKED);
+        $record->state($record->exists() ? sfDoctrineRecord::STATE_LOCKED : sfDoctrineRecord::STATE_TLOCKED);
 
         try {
             $conn->beginInternalTransaction();
@@ -73,23 +73,23 @@ class Doctrine_Connection_UnitOfWork extends Doctrine_Connection_Module
                 $this->saveRelatedLocalKeys($record);
 
                 switch ($state) {
-                    case Doctrine_Record::STATE_TDIRTY:
-                    case Doctrine_Record::STATE_TCLEAN:
+                    case sfDoctrineRecord::STATE_TDIRTY:
+                    case sfDoctrineRecord::STATE_TCLEAN:
                         if ($replace) {
                             $isValid = $this->replace($record);
                         } else {
                             $isValid = $this->insert($record);
                         }
                         break;
-                    case Doctrine_Record::STATE_DIRTY:
-                    case Doctrine_Record::STATE_PROXY:
+                    case sfDoctrineRecord::STATE_DIRTY:
+                    case sfDoctrineRecord::STATE_PROXY:
                         if ($replace) {
                             $isValid = $this->replace($record);
                         } else {
                             $isValid = $this->update($record);
                         }
                         break;
-                    case Doctrine_Record::STATE_CLEAN:
+                    case sfDoctrineRecord::STATE_CLEAN:
                         // do nothing
                         break;
                 }
@@ -120,7 +120,7 @@ class Doctrine_Connection_UnitOfWork extends Doctrine_Connection_Module
 
                 $state = $record->state();
 
-                $record->state($record->exists() ? Doctrine_Record::STATE_LOCKED : Doctrine_Record::STATE_TLOCKED);
+                $record->state($record->exists() ? sfDoctrineRecord::STATE_LOCKED : sfDoctrineRecord::STATE_TLOCKED);
 
                 if ($isValid) {
                     $saveLater = $this->saveRelatedForeignKeys($record);
@@ -166,7 +166,7 @@ class Doctrine_Connection_UnitOfWork extends Doctrine_Connection_Module
      *
      * @return boolean      true on success, false on failure
      */
-    public function delete(Doctrine_Record $record)
+    public function delete(sfDoctrineRecord $record)
     {
         $deletions = array();
         $this->_collectDeletions($record, $deletions);
@@ -179,7 +179,7 @@ class Doctrine_Connection_UnitOfWork extends Doctrine_Connection_Module
      *
      * @param array $deletions  Map of the records to delete. Keys=Oids Values=Records.
      */
-    private function _collectDeletions(Doctrine_Record $record, array &$deletions)
+    private function _collectDeletions(sfDoctrineRecord $record, array &$deletions)
     {
         if ( ! $record->exists()) {
             return;
@@ -261,7 +261,7 @@ class Doctrine_Connection_UnitOfWork extends Doctrine_Connection_Module
                     // currently just for bc!
                     $this->_deleteCTIParents($table, $record);
                     //--
-                    $record->state(Doctrine_Record::STATE_TCLEAN);
+                    $record->state(sfDoctrineRecord::STATE_TCLEAN);
                     $record->getTable()->removeRecord($record);
                     $this->_postDelete($record);
                 }
@@ -327,11 +327,11 @@ class Doctrine_Connection_UnitOfWork extends Doctrine_Connection_Module
      * Exception: many-valued relations are always (re-)fetched from the database to
      * make sure we have all of them.
      *
-     * @param Doctrine_Record  The record for which the delete operation will be cascaded.
+     * @param sfDoctrineRecord  The record for which the delete operation will be cascaded.
      * @throws PDOException    If something went wrong at database level
      * @return void
      */
-     protected function _cascadeDelete(Doctrine_Record $record, array &$deletions)
+     protected function _cascadeDelete(sfDoctrineRecord $record, array &$deletions)
      {
          foreach ($record->getTable()->getRelations() as $relation) {
              if ($relation->isCascadeDelete()) {
@@ -342,7 +342,7 @@ class Doctrine_Connection_UnitOfWork extends Doctrine_Connection_Module
                      $record->refreshRelated($relation->getAlias());
                  }
                  $relatedObjects = $record->get($relation->getAlias());
-                 if ($relatedObjects instanceof Doctrine_Record && $relatedObjects->exists()
+                 if ($relatedObjects instanceof sfDoctrineRecord && $relatedObjects->exists()
                         && ! isset($deletions[$relatedObjects->getOid()])) {
                      $this->_collectDeletions($relatedObjects, $deletions);
                  } else if ($relatedObjects instanceof Doctrine_Collection && count($relatedObjects) > 0) {
@@ -362,9 +362,9 @@ class Doctrine_Connection_UnitOfWork extends Doctrine_Connection_Module
      * saves all related (through ForeignKey) records to $record
      *
      * @throws PDOException         if something went wrong at database level
-     * @param Doctrine_Record $record
+     * @param sfDoctrineRecord $record
      */
-    public function saveRelatedForeignKeys(Doctrine_Record $record)
+    public function saveRelatedForeignKeys(sfDoctrineRecord $record)
     {
         $saveLater = array();
         foreach ($record->getReferences() as $k => $v) {
@@ -382,12 +382,12 @@ class Doctrine_Connection_UnitOfWork extends Doctrine_Connection_Module
      * saves all related (through LocalKey) records to $record
      *
      * @throws PDOException         if something went wrong at database level
-     * @param Doctrine_Record $record
+     * @param sfDoctrineRecord $record
      */
-    public function saveRelatedLocalKeys(Doctrine_Record $record)
+    public function saveRelatedLocalKeys(sfDoctrineRecord $record)
     {
         $state = $record->state();
-        $record->state($record->exists() ? Doctrine_Record::STATE_LOCKED : Doctrine_Record::STATE_TLOCKED);
+        $record->state($record->exists() ? sfDoctrineRecord::STATE_LOCKED : sfDoctrineRecord::STATE_TLOCKED);
 
         foreach ($record->getReferences() as $k => $v) {
             $rel = $record->getTable()->getRelation($k);
@@ -400,7 +400,7 @@ class Doctrine_Connection_UnitOfWork extends Doctrine_Connection_Module
                 $obj = $record->get($rel->getAlias());
 
                 // Protection against infinite function recursion before attempting to save
-                if ($obj instanceof Doctrine_Record && $obj->isModified()) {
+                if ($obj instanceof sfDoctrineRecord && $obj->isModified()) {
                     $obj->save($this->conn);
 
                     $id = array_values($obj->identifier());
@@ -432,10 +432,10 @@ class Doctrine_Connection_UnitOfWork extends Doctrine_Connection_Module
      * save new associations to 4 and 5
      *
      * @throws Doctrine_Connection_Exception         if something went wrong at database level
-     * @param Doctrine_Record $record
+     * @param sfDoctrineRecord $record
      * @return void
      */
-    public function saveAssociations(Doctrine_Record $record)
+    public function saveAssociations(sfDoctrineRecord $record)
     {
         foreach ($record->getReferences() as $k => $v) {
             $rel = $record->getTable()->getRelation($k);
@@ -471,7 +471,7 @@ class Doctrine_Connection_UnitOfWork extends Doctrine_Connection_Module
      *
      * @return boolean  Whether a listener has used it's veto (don't delete!).
      */
-    private function _preDelete(Doctrine_Record $record)
+    private function _preDelete(sfDoctrineRecord $record)
     {
         $event = new Doctrine_Event($record, Doctrine_Event::RECORD_DELETE);
         $record->preDelete($event);
@@ -483,7 +483,7 @@ class Doctrine_Connection_UnitOfWork extends Doctrine_Connection_Module
     /**
      * Invokes postDelete event listeners.
      */
-    private function _postDelete(Doctrine_Record $record)
+    private function _postDelete(sfDoctrineRecord $record)
     {
         $event = new Doctrine_Event($record, Doctrine_Event::RECORD_DELETE);
         $record->postDelete($event);
@@ -514,10 +514,10 @@ class Doctrine_Connection_UnitOfWork extends Doctrine_Connection_Module
     /**
      * updates given record
      *
-     * @param Doctrine_Record $record   record to be updated
+     * @param sfDoctrineRecord $record   record to be updated
      * @return boolean                  whether or not the update was successful
      */
-    public function update(Doctrine_Record $record)
+    public function update(sfDoctrineRecord $record)
     {
         $event = $record->invokeSaveHooks('pre', 'update');;
 
@@ -552,10 +552,10 @@ class Doctrine_Connection_UnitOfWork extends Doctrine_Connection_Module
      * processSingleInsert(), trigger insert hooks and validation of data
      * if required.
      *
-     * @param Doctrine_Record $record   
+     * @param sfDoctrineRecord $record   
      * @return boolean                  false if record is not valid
      */
-    public function insert(Doctrine_Record $record)
+    public function insert(sfDoctrineRecord $record)
     {
         $event = $record->invokeSaveHooks('pre', 'insert');
 
@@ -584,10 +584,10 @@ class Doctrine_Connection_UnitOfWork extends Doctrine_Connection_Module
     /**
      * Replaces a record into database.
      *
-     * @param Doctrine_Record $record   
+     * @param sfDoctrineRecord $record   
      * @return boolean                  false if record is not valid
      */
-    public function replace(Doctrine_Record $record)
+    public function replace(sfDoctrineRecord $record)
     {
         if ($record->exists()) {
             return $this->update($record);
@@ -628,10 +628,10 @@ class Doctrine_Connection_UnitOfWork extends Doctrine_Connection_Module
      * This method inserts the data of a single record in its assigned table, 
      * assigning to it the autoincrement primary key (if any is defined).
      * 
-     * @param Doctrine_Record $record
+     * @param sfDoctrineRecord $record
      * @return void
      */
-    public function processSingleInsert(Doctrine_Record $record)
+    public function processSingleInsert(sfDoctrineRecord $record)
     {
         $fields = $record->getPrepared();
         $table = $record->getTable();
@@ -813,7 +813,7 @@ class Doctrine_Connection_UnitOfWork extends Doctrine_Connection_Module
      * Class Table Inheritance code.
      * Support dropped for 0.10/1.0.
      */
-    private function _insertCTIRecord(Doctrine_Table $table, Doctrine_Record $record)
+    private function _insertCTIRecord(Doctrine_Table $table, sfDoctrineRecord $record)
     {
         $dataSet = $this->_formatDataSet($record);
         $component = $table->getComponentName();
@@ -841,7 +841,7 @@ class Doctrine_Connection_UnitOfWork extends Doctrine_Connection_Module
      * Class Table Inheritance code.
      * Support dropped for 0.10/1.0.
      */
-    private function _updateCTIRecord(Doctrine_Table $table, Doctrine_Record $record)
+    private function _updateCTIRecord(Doctrine_Table $table, sfDoctrineRecord $record)
     {
         $identifier = $record->identifier();
         $dataSet = $this->_formatDataSet($record);
@@ -852,7 +852,7 @@ class Doctrine_Connection_UnitOfWork extends Doctrine_Connection_Module
         $classes[] = $component;
 
         foreach ($record as $field => $value) {
-            if ($value instanceof Doctrine_Record) {
+            if ($value instanceof sfDoctrineRecord) {
                 if ( ! $value->exists()) {
                     $value->save();
                 }
@@ -875,7 +875,7 @@ class Doctrine_Connection_UnitOfWork extends Doctrine_Connection_Module
      * Class Table Inheritance code.
      * Support dropped for 0.10/1.0.
      */
-    private function _formatDataSet(Doctrine_Record $record)
+    private function _formatDataSet(sfDoctrineRecord $record)
     {
         $table = $record->getTable();
         $dataSet = array();
@@ -910,7 +910,7 @@ class Doctrine_Connection_UnitOfWork extends Doctrine_Connection_Module
         return $dataSet;
     }
 
-    protected function _assignSequence(Doctrine_Record $record, &$fields = null)
+    protected function _assignSequence(sfDoctrineRecord $record, &$fields = null)
     {
         $table = $record->getTable();
         $seq = $table->sequenceName;
@@ -928,7 +928,7 @@ class Doctrine_Connection_UnitOfWork extends Doctrine_Connection_Module
         }
     }
 
-    protected function _assignIdentifier(Doctrine_Record $record)
+    protected function _assignIdentifier(sfDoctrineRecord $record)
     {
         $table = $record->getTable();
         $identifier = $table->getIdentifier();
