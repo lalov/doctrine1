@@ -420,7 +420,7 @@ abstract class Doctrine_Record_Generator extends Doctrine_Record_Abstract
     }
 
     /**
-     * Generate a Doctrine_Record from a populated Doctrine_Table instance
+     * Generate a sfDoctrineRecord from a populated Doctrine_Table instance
      *
      * @param Doctrine_Table $table
      * @return void

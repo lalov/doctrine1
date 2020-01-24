@@ -41,7 +41,7 @@ class Doctrine_Relation_ForeignKey extends Doctrine_Relation
      * @param Doctrine_Record $record
      * @return Doctrine_Record|Doctrine_Collection
      */
-    public function fetchRelatedFor(Doctrine_Record $record)
+    public function fetchRelatedFor(sfDoctrineRecord $record)
     {
         $id = array();
         $localTable = $record->getTable();

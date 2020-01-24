@@ -85,7 +85,7 @@ abstract class Doctrine_Template extends Doctrine_Record_Abstract
      * @param Doctrine_Record $invoker      the record that invoked the last delegated call
      * @return Doctrine_Template            this object
      */
-    public function setInvoker(Doctrine_Record_Abstract $invoker)
+    public function setInvoker(AbstractDoctrineLaravelRecord $invoker)
     {
         $this->_invoker = $invoker;
     }

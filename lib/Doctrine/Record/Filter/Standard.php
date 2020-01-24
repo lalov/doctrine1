@@ -35,22 +35,22 @@ class Doctrine_Record_Filter_Standard extends Doctrine_Record_Filter
 {
     /**
      * filterSet
-     * defines an implementation for filtering the set() method of Doctrine_Record
+     * defines an implementation for filtering the set() method of sfDoctrineRecord
      *
      * @param mixed $name                       name of the property or related component
      */
-    public function filterSet(Doctrine_Record $record, $name, $value)
+    public function filterSet(sfDoctrineRecord $record, $name, $value)
     {
         throw new Doctrine_Record_UnknownPropertyException(sprintf('Unknown record property / related component "%s" on "%s"', $name, get_class($record)));
     }
 
     /**
      * filterGet
-     * defines an implementation for filtering the get() method of Doctrine_Record
+     * defines an implementation for filtering the get() method of sfDoctrineRecord
      *
      * @param mixed $name                       name of the property or related component
      */
-    public function filterGet(Doctrine_Record $record, $name)
+    public function filterGet(sfDoctrineRecord $record, $name)
     {
         throw new Doctrine_Record_UnknownPropertyException(sprintf('Unknown record property / related component "%s" on "%s"', $name, get_class($record)));
     }

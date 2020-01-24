@@ -415,9 +415,9 @@ class Doctrine_Import_Builder extends Doctrine_Builder
                 }
 
                 if ($relation['type'] === Doctrine_Relation::ONE) {
-                    $ret[$i] = "        ".'$this->hasOne(\'' . $class . $alias . '\'';
+                    $ret[$i] = "        ".'$this->__hasOne(\'' . $class . $alias . '\'';
                 } else {
-                    $ret[$i] = "        ".'$this->hasMany(\'' . $class . $alias . '\'';
+                    $ret[$i] = "        ".'$this->__hasMany(\'' . $class . $alias . '\'';
                 }
 
                 $a = array();
@@ -551,9 +551,9 @@ class Doctrine_Import_Builder extends Doctrine_Builder
                 $setter = 'set' . $classified;
 
                 if ($refl->hasMethod($getter) || $refl->hasMethod($setter)) {
-                    throw new Doctrine_Import_Exception(
-                        sprintf('When using the attribute ATTR_AUTO_ACCESSOR_OVERRIDE you cannot use the field name "%s" because it is reserved by Doctrine. You must choose another field name.', $fieldName)
-                    );
+//                    throw new Doctrine_Import_Exception(
+//                        sprintf('When using the attribute ATTR_AUTO_ACCESSOR_OVERRIDE you cannot use the field name "%s" because it is reserved by Doctrine. You must choose another field name. "%s', $fieldName, $this->_baseClassName)
+//                    );
                 }
             }
             $build .= "        ".'$this->hasColumn(\'' . $columnName . '\', \'' . $column['type'] . '\'';
@@ -1205,8 +1205,8 @@ class Doctrine_Import_Builder extends Doctrine_Builder
         $definitionCode = $this->buildDefinition($definition);
 
         if ($prefix) {
-            $definitionCode = str_replace("this->hasOne('", "this->hasOne('$prefix", $definitionCode);
-            $definitionCode = str_replace("this->hasMany('", "this->hasMany('$prefix", $definitionCode);
+            $definitionCode = str_replace("this->__hasOne('", "this->__hasOne('$prefix", $definitionCode);
+            $definitionCode = str_replace("this->__hasMany('", "this->__hasMany('$prefix", $definitionCode);
             $definitionCode = str_replace("'refClass' => '", "'refClass' => '$prefix", $definitionCode);
         }
 

@@ -298,7 +298,8 @@ class Doctrine_Table extends Doctrine_Configurable implements Countable
         if ( ! class_exists($name) || empty($name)) {
             throw new Doctrine_Exception("Couldn't find class " . $name);
         }
-        $record = new $name($this);
+        $record = new $name();
+        $record->setupTableStuff($this);
 
         $names = array();
 
@@ -307,7 +308,7 @@ class Doctrine_Table extends Doctrine_Configurable implements Countable
         // get parent classes
 
         do {
-            if ($class === 'Doctrine_Record') {
+            if ($class === 'AbstractDoctrineLaravelRecord') {
                 break;
             }
 
@@ -316,8 +317,9 @@ class Doctrine_Table extends Doctrine_Configurable implements Countable
         } while ($class = get_parent_class($class));
 
         if ($class === false) {
-            throw new Doctrine_Table_Exception('Class "' . $name . '" must be a child class of Doctrine_Record');
+            throw new Doctrine_Table_Exception('Class "' . $name . '" must be a child class of AbstractDoctrineLaravelRecord');
         }
+
 
         // reverse names
         $names = array_reverse($names);

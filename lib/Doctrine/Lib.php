@@ -142,12 +142,13 @@ class Doctrine_Lib
      */
     public static function getTableAsString(Doctrine_Table $table)
     {
-        $r[] = "<pre>";
-        $r[] = "Component   : ".$table->getComponentName();
-        $r[] = "Table       : ".$table->getTableName();
-        $r[] = "</pre>";
-        
-        return implode("\n",$r)."<br>";
+        return $table->getTableName();
+//        $r[] = "<pre>";
+//        $r[] = "Component   : ".$table->getComponentName();
+//        $r[] = "Table       : ".$table->getTableName();
+//        $r[] = "</pre>";
+//
+//        return implode("\n",$r)."<br>";
     }
 
     /**

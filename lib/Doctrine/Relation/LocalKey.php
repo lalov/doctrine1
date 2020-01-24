@@ -41,7 +41,7 @@ class Doctrine_Relation_LocalKey extends Doctrine_Relation
      * @param Doctrine_Record $record
      * @return Doctrine_Record|Doctrine_Collection
      */
-    public function fetchRelatedFor(Doctrine_Record $record)
+    public function fetchRelatedFor(sfDoctrineRecord $record)
     {
         $localFieldName = $record->getTable()->getFieldName($this->definition['local']);
         $id = $record->get($localFieldName);

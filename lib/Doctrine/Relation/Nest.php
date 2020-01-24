@@ -32,7 +32,7 @@
  */
 class Doctrine_Relation_Nest extends Doctrine_Relation_Association
 {
-    public function fetchRelatedFor(Doctrine_Record $record)
+    public function fetchRelatedFor(sfDoctrineRecord $record)
     {
         $id = $record->getIncremented();
 
