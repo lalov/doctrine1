@@ -35,14 +35,14 @@ interface Doctrine_Tree_Interface {
     /**
      * creates root node from given record or from a new record
      *
-     * @param Doctrine_Record $record                    instance of Doctrine_Record
+     * @param sfDoctrineRecord $record                    instance of sfDoctrineRecord
      */
-    public function createRoot(Doctrine_Record $record = null);
+    public function createRoot(sfDoctrineRecord $record = null);
 
     /**
      * returns root node
      *
-     * @return Doctrine_Record
+     * @return sfDoctrineRecord
      */
     public function fetchRoot($root_id = 1);
 

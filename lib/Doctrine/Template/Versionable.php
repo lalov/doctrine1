@@ -99,7 +99,7 @@ class Doctrine_Template_Versionable extends Doctrine_Template
      *
      * @throws Doctrine_Record_Exception    if given version does not exist
      * @param integer $version      an integer > 1
-     * @return Doctrine_Record      this object
+     * @return sfDoctrineRecord      this object
      */
     public function revert($version)
     {

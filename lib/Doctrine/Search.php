@@ -129,7 +129,7 @@ class Doctrine_Search extends Doctrine_Record_Generator
      * updateIndex
      * updates the index
      *
-     * @param Doctrine_Record $record
+     * @param sfDoctrineRecord $record
      * @return integer
      */
     public function updateIndex(array $data, $encoding = null)

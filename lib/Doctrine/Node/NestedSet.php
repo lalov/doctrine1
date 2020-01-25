@@ -76,7 +76,7 @@ class Doctrine_Node_NestedSet extends Doctrine_Node implements Doctrine_Node_Int
     /**
      * gets record of prev sibling or empty record
      *
-     * @return Doctrine_Record            
+     * @return sfDoctrineRecord
      */
     public function getPrevSibling()
     {
@@ -102,7 +102,7 @@ class Doctrine_Node_NestedSet extends Doctrine_Node implements Doctrine_Node_Int
     /**
      * gets record of next sibling or empty record
      *
-     * @return Doctrine_Record            
+     * @return sfDoctrineRecord
      */
     public function getNextSibling()
     {
@@ -128,7 +128,7 @@ class Doctrine_Node_NestedSet extends Doctrine_Node implements Doctrine_Node_Int
     /**
      * gets siblings for node
      *
-     * @return array     array of sibling Doctrine_Record objects            
+     * @return array     array of sibling sfDoctrineRecord objects
      */
     public function getSiblings($includeNode = false)
     {
@@ -148,7 +148,7 @@ class Doctrine_Node_NestedSet extends Doctrine_Node implements Doctrine_Node_Int
     /**
      * gets record of first child or empty record
      *
-     * @return Doctrine_Record            
+     * @return sfDoctrineRecord
      */
     public function getFirstChild()
     {
@@ -174,7 +174,7 @@ class Doctrine_Node_NestedSet extends Doctrine_Node implements Doctrine_Node_Int
     /**
      * gets record of last child or empty record
      *
-     * @return Doctrine_Record            
+     * @return sfDoctrineRecord
      */
     public function getLastChild()
     {
@@ -241,7 +241,7 @@ class Doctrine_Node_NestedSet extends Doctrine_Node implements Doctrine_Node_Int
     /**
      * gets record of parent or empty record
      *
-     * @return Doctrine_Record            
+     * @return sfDoctrineRecord
      */
     public function getParent()
     {
@@ -340,7 +340,7 @@ class Doctrine_Node_NestedSet extends Doctrine_Node implements Doctrine_Node_Int
      * @return bool
      * @todo Wrap in transaction          
      */
-    public function insertAsParentOf(Doctrine_Record $dest)
+    public function insertAsParentOf(sfDoctrineRecord $dest)
     {
         // cannot insert a node that has already has a place within the tree
         if ($this->isValidNode()) {
@@ -403,7 +403,7 @@ class Doctrine_Node_NestedSet extends Doctrine_Node implements Doctrine_Node_Int
      * @return bool
      * @todo Wrap in transaction       
      */
-    public function insertAsPrevSiblingOf(Doctrine_Record $dest)
+    public function insertAsPrevSiblingOf(sfDoctrineRecord $dest)
     {
         // cannot insert a node that has already has a place within the tree
         if ($this->isValidNode()) {
@@ -449,7 +449,7 @@ class Doctrine_Node_NestedSet extends Doctrine_Node implements Doctrine_Node_Int
      * @return bool
      * @todo Wrap in transaction           
      */    
-    public function insertAsNextSiblingOf(Doctrine_Record $dest)
+    public function insertAsNextSiblingOf(sfDoctrineRecord $dest)
     {
         // cannot insert a node that has already has a place within the tree
         if ($this->isValidNode()) {
@@ -494,7 +494,7 @@ class Doctrine_Node_NestedSet extends Doctrine_Node implements Doctrine_Node_Int
      * @return bool
      * @todo Wrap in transaction         
      */
-    public function insertAsFirstChildOf(Doctrine_Record $dest)
+    public function insertAsFirstChildOf(sfDoctrineRecord $dest)
     {
         // cannot insert a node that has already has a place within the tree
         if ($this->isValidNode()) {
@@ -540,7 +540,7 @@ class Doctrine_Node_NestedSet extends Doctrine_Node implements Doctrine_Node_Int
      * @return bool
      * @todo Wrap in transaction            
      */
-    public function insertAsLastChildOf(Doctrine_Record $dest)
+    public function insertAsLastChildOf(sfDoctrineRecord $dest)
     {
         // cannot insert a node that has already has a place within the tree
         if ($this->isValidNode()) {
@@ -584,12 +584,12 @@ class Doctrine_Node_NestedSet extends Doctrine_Node implements Doctrine_Node_Int
      * Accomplishes moving of nodes between different trees.
      * Used by the move* methods if the root values of the two nodes are different.
      *
-     * @param Doctrine_Record $dest
+     * @param sfDoctrineRecord $dest
      * @param unknown_type $newLeftValue
      * @param unknown_type $moveType
      * @todo Better exception handling/wrapping
      */
-    private function _moveBetweenTrees(Doctrine_Record $dest, $newLeftValue, $moveType)
+    private function _moveBetweenTrees(sfDoctrineRecord $dest, $newLeftValue, $moveType)
     {
         $conn = $this->record->getTable()->getConnection();
             
@@ -675,7 +675,7 @@ class Doctrine_Node_NestedSet extends Doctrine_Node implements Doctrine_Node_Int
      * moves node as prev sibling of dest record
      * 
      */     
-    public function moveAsPrevSiblingOf(Doctrine_Record $dest)
+    public function moveAsPrevSiblingOf(sfDoctrineRecord $dest)
     {
         if (
 		    $dest === $this->record ||
@@ -703,7 +703,7 @@ class Doctrine_Node_NestedSet extends Doctrine_Node implements Doctrine_Node_Int
      * moves node as next sibling of dest record
      *        
      */
-    public function moveAsNextSiblingOf(Doctrine_Record $dest)
+    public function moveAsNextSiblingOf(sfDoctrineRecord $dest)
     {
         if (
 		    $dest === $this->record ||
@@ -731,7 +731,7 @@ class Doctrine_Node_NestedSet extends Doctrine_Node implements Doctrine_Node_Int
      * moves node as first child of dest record
      *            
      */
-    public function moveAsFirstChildOf(Doctrine_Record $dest)
+    public function moveAsFirstChildOf(sfDoctrineRecord $dest)
     {
         if (
 		    $dest === $this->record || $this->isAncestorOf($dest) ||
@@ -759,7 +759,7 @@ class Doctrine_Node_NestedSet extends Doctrine_Node implements Doctrine_Node_Int
      * moves node as last child of dest record
      *        
      */
-    public function moveAsLastChildOf(Doctrine_Record $dest)
+    public function moveAsLastChildOf(sfDoctrineRecord $dest)
     {
         if (
 		    $dest === $this->record || $this->isAncestorOf($dest) ||
@@ -848,7 +848,7 @@ class Doctrine_Node_NestedSet extends Doctrine_Node implements Doctrine_Node_Int
      * adds node as last child of record
      *        
      */
-    public function addChild(Doctrine_Record $record)
+    public function addChild(sfDoctrineRecord $record)
     {
         $record->getNode()->insertAsLastChildOf($this->getRecord());
     }
@@ -878,7 +878,7 @@ class Doctrine_Node_NestedSet extends Doctrine_Node implements Doctrine_Node_Int
      *
      * @return bool            
      */    
-    public function isEqualTo(Doctrine_Record $subj)
+    public function isEqualTo(sfDoctrineRecord $subj)
     {
         return (($this->getLeftValue() == $subj->getNode()->getLeftValue()) &&
                 ($this->getRightValue() == $subj->getNode()->getRightValue()) && 
@@ -891,7 +891,7 @@ class Doctrine_Node_NestedSet extends Doctrine_Node implements Doctrine_Node_Int
      *
      * @return bool
      */
-    public function isDescendantOf(Doctrine_Record $subj)
+    public function isDescendantOf(sfDoctrineRecord $subj)
     {
         return (($this->getLeftValue() > $subj->getNode()->getLeftValue()) &&
                 ($this->getRightValue() < $subj->getNode()->getRightValue()) &&
@@ -903,7 +903,7 @@ class Doctrine_Node_NestedSet extends Doctrine_Node implements Doctrine_Node_Int
      *
      * @return bool            
      */
-    public function isDescendantOfOrEqualTo(Doctrine_Record $subj)
+    public function isDescendantOfOrEqualTo(sfDoctrineRecord $subj)
     {
         return (($this->getLeftValue() >= $subj->getNode()->getLeftValue()) &&
                 ($this->getRightValue() <= $subj->getNode()->getRightValue()) &&
@@ -915,7 +915,7 @@ class Doctrine_Node_NestedSet extends Doctrine_Node implements Doctrine_Node_Int
      *
      * @return bool            
      */
-    public function isAncestorOf(Doctrine_Record $subj)
+    public function isAncestorOf(sfDoctrineRecord $subj)
     {
         return (($subj->getNode()->getLeftValue() > $this->getLeftValue()) &&
                 ($subj->getNode()->getRightValue() < $this->getRightValue()) &&
@@ -931,7 +931,7 @@ class Doctrine_Node_NestedSet extends Doctrine_Node implements Doctrine_Node_Int
     {
         if ($record === null) {
             return ($this->getRightValue() > $this->getLeftValue());
-        } else if ( $record instanceof Doctrine_Record ) {
+        } else if ( $record instanceof sfDoctrineRecord ) {
             return ($record->getNode()->getRightValue() > $record->getNode()->getLeftValue());
         } else {
             return false;

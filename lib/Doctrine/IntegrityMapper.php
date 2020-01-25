@@ -35,10 +35,10 @@ class Doctrine_IntegrityMapper
     /**
      * processDeleteIntegrity 
      * 
-     * @param Doctrine_Record $record 
+     * @param sfDoctrineRecord $record
      * @return void
      */
-    public function processDeleteIntegrity(Doctrine_Record $record)
+    public function processDeleteIntegrity(sfDoctrineRecord $record)
     {
         $coll = $this->buildIntegrityRelationQuery($record);
         
@@ -48,10 +48,10 @@ class Doctrine_IntegrityMapper
     /**
      * invokeIntegrityActions 
      * 
-     * @param Doctrine_Record $record 
+     * @param sfDoctrineRecord $record
      * @return void
      */
-    public function invokeIntegrityActions(Doctrine_Record $record)
+    public function invokeIntegrityActions(sfDoctrineRecord $record)
     {
         $deleteActions = Doctrine_Manager::getInstance()
                          ->getDeleteActions($record->getTable()->getComponentName());
@@ -82,10 +82,10 @@ class Doctrine_IntegrityMapper
     /**
      * buildIntegrityRelationQuery 
      * 
-     * @param Doctrine_Record $record 
+     * @param sfDoctrineRecord $record
      * @return array The result
      */
-    public function buildIntegrityRelationQuery(Doctrine_Record $record)
+    public function buildIntegrityRelationQuery(sfDoctrineRecord $record)
     {
         $q = $record->getTable()->createQuery();
         

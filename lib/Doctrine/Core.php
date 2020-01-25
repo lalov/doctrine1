@@ -778,7 +778,7 @@ class Doctrine_Core
     }
 
     /**
-     * Checks if what is passed is a valid Doctrine_Record
+     * Checks if what is passed is a valid sfDoctrineRecord
      * Will load class in to memory in order to inflect it and find out information about the class
      *
      * @param   mixed   $class Can be a string named after the class, an instance of the class, or an instance of the class reflected
@@ -786,7 +786,7 @@ class Doctrine_Core
      */
     public static function isValidModelClass($class)
     {
-        if ($class instanceof Doctrine_Record) {
+        if ($class instanceof sfDoctrineRecord) {
             $class = get_class($class);
         }
 
@@ -797,8 +797,8 @@ class Doctrine_Core
         if ($class instanceof ReflectionClass) {
             // Skip the following classes
             // - abstract classes
-            // - not a subclass of Doctrine_Record
-            if ( ! $class->isAbstract() && $class->isSubClassOf('Doctrine_Record')) {
+            // - not a subclass of sfDoctrineRecord
+            if ( ! $class->isAbstract() && $class->isSubClassOf('sfDoctrineRecord')) {
 
                 return true;
             }
@@ -830,7 +830,7 @@ class Doctrine_Core
     }
 
     /**
-     * Method for importing existing schema to Doctrine_Record classes
+     * Method for importing existing schema to sfDoctrineRecord classes
      *
      * @param string $directory Directory to write your models to
      * @param array $connections Array of connection names to generate models for

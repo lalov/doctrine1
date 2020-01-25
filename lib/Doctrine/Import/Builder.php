@@ -22,7 +22,7 @@
 /**
  * Doctrine_Import_Builder
  *
- * Import builder is responsible of building Doctrine_Record classes
+ * Import builder is responsible of building sfDoctrineRecord classes
  * based on a database schema.
  *
  * @package     Doctrine
@@ -106,7 +106,7 @@ class Doctrine_Import_Builder extends Doctrine_Builder
      *
      * @var string
      */
-    protected $_baseClassName = 'Doctrine_Record';
+    protected $_baseClassName = 'sfDoctrineRecord';
 
     /**
      * Base table class name for generated classes
@@ -326,7 +326,7 @@ class Doctrine_Import_Builder extends Doctrine_Builder
     }
 
     /*
-     * Build the table definition of a Doctrine_Record object
+     * Build the table definition of a sfDoctrineRecord object
      *
      * @param  string $table
      * @param  array  $tableColumns

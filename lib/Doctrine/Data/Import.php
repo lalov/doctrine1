@@ -175,13 +175,13 @@ class Doctrine_Data_Import extends Doctrine_Data
      * for the passed record and relation name
      *
      * @param  string $rowKey
-     * @param  Doctrine_Record $record
+     * @param  sfDoctrineRecord $record
      * @param  string $relationName
      * @param  string $referringRowKey
-     * @return Doctrine_Record
+     * @return sfDoctrineRecord
      * @throws Doctrine_Data_Exception
      */
-    protected function _getImportedObject($rowKey, Doctrine_Record $record, $relationName, $referringRowKey)
+    protected function _getImportedObject($rowKey, sfDoctrineRecord $record, $relationName, $referringRowKey)
     {
         $relation = $record->getTable()->getRelation($relationName); 
         $rowKey = $this->_getRowKeyPrefix($relation->getTable()) . $rowKey;

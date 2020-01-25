@@ -38,8 +38,8 @@ class Doctrine_Relation_LocalKey extends Doctrine_Relation
      *
      * fetches a component related to given record
      *
-     * @param Doctrine_Record $record
-     * @return Doctrine_Record|Doctrine_Collection
+     * @param sfDoctrineRecord $record
+     * @return sfDoctrineRecord|Doctrine_Collection
      */
     public function fetchRelatedFor(sfDoctrineRecord $record)
     {
@@ -52,7 +52,7 @@ class Doctrine_Relation_LocalKey extends Doctrine_Relation
             // Ticket #1131 Patch.            
             if ( ! is_null($id)) {
                 $related->assignIdentifier($id);
-                $related->state(Doctrine_Record::STATE_PROXY);
+                $related->state(sfDoctrineRecord::STATE_PROXY);
             }
         } else {
             $dql  = 'FROM ' . $this->getTable()->getComponentName()

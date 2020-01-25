@@ -20,7 +20,7 @@
  */
 
 /**
- * Builds result sets in to the object graph using Doctrine_Record instances
+ * Builds result sets in to the object graph using sfDoctrineRecord instances
  *
  * @package     Doctrine
  * @subpackage  Hydrate

@@ -355,7 +355,7 @@ class Doctrine_Import extends Doctrine_Connection_Module
     /**
      * importSchema
      *
-     * method for importing existing schema to Doctrine_Record classes
+     * method for importing existing schema to sfDoctrineRecord classes
      *
      * @param string $directory
      * @param array $connections Array of connection names to generate models for

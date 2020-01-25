@@ -113,13 +113,13 @@ class Doctrine_AuditLog extends Doctrine_Record_Generator
     /**
      * Get array of information for the passed record and the specified version
      *
-     * @param   Doctrine_Record $record
+     * @param   sfDoctrineRecord $record
      * @param   integer         $version
      * @param   integer         $hydrationMode
      * @param	boolean			$asCollection
-     * @return  array           An array or Doctrine_Collection or a Doctrine_Record
+     * @return  array           An array or Doctrine_Collection or a sfDoctrineRecord
      */
-    public function getVersion(Doctrine_Record $record, $version, $hydrationMode = Doctrine_Core::HYDRATE_ARRAY, $asCollection = true)
+    public function getVersion(sfDoctrineRecord $record, $version, $hydrationMode = Doctrine_Core::HYDRATE_ARRAY, $asCollection = true)
     {
         $className = $this->_options['className'];
         $method    = ($asCollection) ? 'execute' : 'fetchOne';
@@ -143,12 +143,12 @@ class Doctrine_AuditLog extends Doctrine_Record_Generator
     }
 
     /**
-     * Get the max version number for a given Doctrine_Record
+     * Get the max version number for a given sfDoctrineRecord
      *
-     * @param Doctrine_Record $record
+     * @param sfDoctrineRecord $record
      * @return Integer $versionnumber
      */
-    public function getMaxVersion(Doctrine_Record $record)
+    public function getMaxVersion(sfDoctrineRecord $record)
     {
         $className = $this->_options['className'];
         $select = 'MAX(' . $className . '.' . $this->_options['version']['name'] . ') max_version';

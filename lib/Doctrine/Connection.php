@@ -877,7 +877,7 @@ abstract class Doctrine_Connection extends Doctrine_Configurable implements Coun
     /**
      * query
      * queries the database using Doctrine Query Language
-     * returns a collection of Doctrine_Record objects
+     * returns a collection of sfDoctrineRecord objects
      *
      * <code>
      * $users = $conn->query('SELECT u.* FROM User u');
@@ -889,7 +889,7 @@ abstract class Doctrine_Connection extends Doctrine_Configurable implements Coun
      * @param array $params             query parameters
      * @param int $hydrationMode        Doctrine_Core::HYDRATE_ARRAY or Doctrine_Core::HYDRATE_RECORD
      * @see Doctrine_Query
-     * @return Doctrine_Collection      Collection of Doctrine_Record objects
+     * @return Doctrine_Collection      Collection of sfDoctrineRecord objects
      */
     public function query($query, array $params = array(), $hydrationMode = null)
     {
@@ -945,7 +945,7 @@ abstract class Doctrine_Connection extends Doctrine_Configurable implements Coun
      * @param string $query             DQL query
      * @param array $params             query parameters
      * @see Doctrine_Query
-     * @return Doctrine_Record|false    Doctrine_Record object on success,
+     * @return sfDoctrineRecord|false    sfDoctrineRecord object on success,
      *                                  boolean false on failure
      */
     public function queryOne($query, array $params = array())
@@ -1189,7 +1189,7 @@ abstract class Doctrine_Connection extends Doctrine_Configurable implements Coun
      *
      * create                       creates a record
      * @param string $name          component name
-     * @return Doctrine_Record      Doctrine_Record object
+     * @return sfDoctrineRecord      sfDoctrineRecord object
      */
     public function create($name)
     {

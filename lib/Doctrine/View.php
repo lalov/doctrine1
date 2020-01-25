@@ -151,7 +151,7 @@ class Doctrine_View
     }
 
     /**
-     * returns a collection of Doctrine_Record objects
+     * returns a collection of sfDoctrineRecord objects
      *
      * @return Doctrine_Collection
      */

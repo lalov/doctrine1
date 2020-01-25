@@ -37,7 +37,7 @@
 class Doctrine_Table extends Doctrine_Configurable implements Countable
 {
     /**
-     * @var array $data                                 temporary data which is then loaded into Doctrine_Record::$_data
+     * @var array $data                                 temporary data which is then loaded into sfDoctrineRecord::$_data
      */
     protected $_data             = array();
 
@@ -109,7 +109,7 @@ class Doctrine_Table extends Doctrine_Configurable implements Countable
     protected $_columnNames = array();
 
     /**
-     * @var integer $columnCount            cached column count, Doctrine_Record uses this column count in when
+     * @var integer $columnCount            cached column count, sfDoctrineRecord uses this column count in when
      *                                      determining its state
      */
     protected $columnCount;
@@ -223,7 +223,7 @@ class Doctrine_Table extends Doctrine_Configurable implements Countable
     protected $_invokedMethods = array();
 
     /**
-     * @var Doctrine_Record $record             empty instance of the given model
+     * @var sfDoctrineRecord $record             empty instance of the given model
      */
     protected $record;
 
@@ -539,7 +539,7 @@ class Doctrine_Table extends Doctrine_Configurable implements Countable
      * but primarily it is first used to instantiate all the internal
      * in memory schema definition.
      *
-     * @return Doctrine_Record  Empty instance of the record
+     * @return sfDoctrineRecord  Empty instance of the record
      */
     public function getRecordInstance()
     {
@@ -627,7 +627,7 @@ class Doctrine_Table extends Doctrine_Configurable implements Countable
      * Exports this table to database based on the schema definition.
      *
      * This method create a physical table in the database, using the
-     * definition that comes from the component Doctrine_Record instance.
+     * definition that comes from the component sfDoctrineRecord instance.
      *
      * @throws Doctrine_Connection_Exception    if some error other than Doctrine_Core::ERR_ALREADY_EXISTS
      *                                          occurred during the create table operation
@@ -956,7 +956,7 @@ class Doctrine_Table extends Doctrine_Configurable implements Countable
      * @param string $componentName     the name of the related component
      * @param string $options           relation options
      * @see Doctrine_Relation::_$definition
-     * @return Doctrine_Record          this object
+     * @return sfDoctrineRecord          this object
      */
     public function hasOne()
     {
@@ -969,7 +969,7 @@ class Doctrine_Table extends Doctrine_Configurable implements Countable
      * @param string $componentName     the name of the related component
      * @param string $options           relation options
      * @see Doctrine_Relation::_$definition
-     * @return Doctrine_Record          this object
+     * @return sfDoctrineRecord          this object
      */
     public function hasMany()
     {
@@ -1511,15 +1511,15 @@ class Doctrine_Table extends Doctrine_Configurable implements Countable
      * Creates a new record.
      *
      * This method create a new instance of the model defined by this table.
-     * The class of this record is the subclass of Doctrine_Record defined by
+     * The class of this record is the subclass of sfDoctrineRecord defined by
      * this component. The record is not created in the database until you
      * call @save().
      *
      * @param $array             an array where keys are field names and
      *                           values representing field values. Can contain
      *                           also related components;
-     *                           @see Doctrine_Record::fromArray()
-     * @return Doctrine_Record   the created record object
+     *                           @see sfDoctrineRecord::fromArray()
+     * @return sfDoctrineRecord   the created record object
      */
     public function create(array $array = array())
     {
@@ -1581,7 +1581,7 @@ class Doctrine_Table extends Doctrine_Configurable implements Countable
      *                            Otherwise this argument expect an array of query params.
      * @param int $hydrationMode  Optional Doctrine_Core::HYDRATE_ARRAY or Doctrine_Core::HYDRATE_RECORD if
      *                            first argument is a NamedQuery
-     * @return mixed              Doctrine_Collection, array, Doctrine_Record or false if no result
+     * @return mixed              Doctrine_Collection, array, sfDoctrineRecord or false if no result
      */
     public function find()
     {
@@ -1705,7 +1705,7 @@ class Doctrine_Table extends Doctrine_Configurable implements Countable
      * @param string $column            field for the WHERE clause
      * @param string $value             prepared statement parameter
      * @param int $hydrationMode        Doctrine_Core::HYDRATE_ARRAY or Doctrine_Core::HYDRATE_RECORD
-     * @return Doctrine_Record
+     * @return sfDoctrineRecord
      */
     public function findOneBy($fieldName, $value, $hydrationMode = null)
     {
@@ -1742,7 +1742,7 @@ class Doctrine_Table extends Doctrine_Configurable implements Countable
      * @param array $params         prepared statement params (if any)
      * @param int $hydrationMode    Doctrine_Core::HYDRATE_ARRAY or Doctrine_Core::HYDRATE_RECORD
      * @throws Doctrine_Query_Registry if no query for given queryKey is found
-     * @return Doctrine_Record|array
+     * @return sfDoctrineRecord|array
      */
     public function executeOne($queryKey, $params = array(), $hydrationMode = Doctrine_Core::HYDRATE_RECORD)
     {
@@ -1768,11 +1768,11 @@ class Doctrine_Table extends Doctrine_Configurable implements Countable
      * This method is used internally to cache records, ensuring that only one
      * object that represents a sql record exists in all scopes.
      *
-     * @param Doctrine_Record $record       record to be added
+     * @param sfDoctrineRecord $record       record to be added
      * @return boolean                      true if record was not present in the map
      * @todo Better name? registerRecord?
      */
-    public function addRecord(Doctrine_Record $record)
+    public function addRecord(sfDoctrineRecord $record)
     {
         $id = implode(' ', $record->identifier());
 
@@ -1791,11 +1791,11 @@ class Doctrine_Table extends Doctrine_Configurable implements Countable
      * This method deletes from the cache the given record; can be used to
      * force reloading of an object from database.
      *
-     * @param Doctrine_Record $record   record to remove from cache
+     * @param sfDoctrineRecord $record   record to remove from cache
      * @return boolean                  true if the record was found and removed,
      *                                  false if the record wasn't found.
      */
-    public function removeRecord(Doctrine_Record $record)
+    public function removeRecord(sfDoctrineRecord $record)
     {
         $id = implode(' ', $record->identifier());
 
@@ -1813,7 +1813,7 @@ class Doctrine_Table extends Doctrine_Configurable implements Countable
      * This method checks if a internal record exists in identityMap, if does
      * not exist it creates a new one.
      *
-     * @return Doctrine_Record
+     * @return sfDoctrineRecord
      */
     public function getRecord()
     {
@@ -1847,9 +1847,9 @@ class Doctrine_Table extends Doctrine_Configurable implements Countable
                 $record = $this->_identityMap[$id];
                 if ($record->getTable()->getAttribute(Doctrine_Core::ATTR_HYDRATE_OVERWRITE)) {
                     $record->hydrate($this->_data);
-                    if ($record->state() == Doctrine_Record::STATE_PROXY) {
+                    if ($record->state() == sfDoctrineRecord::STATE_PROXY) {
                         if (!$record->isInProxyState()) {
-                            $record->state(Doctrine_Record::STATE_CLEAN);
+                            $record->state(sfDoctrineRecord::STATE_CLEAN);
                         }
                     }
                 } else {
@@ -1908,7 +1908,7 @@ class Doctrine_Table extends Doctrine_Configurable implements Countable
     /**
      * @param $id                       database row id
      * @throws Doctrine_Find_Exception
-     * @return Doctrine_Record
+     * @return sfDoctrineRecord
      */
     final public function getProxy($id = null)
     {
@@ -2032,12 +2032,12 @@ class Doctrine_Table extends Doctrine_Configurable implements Countable
      *
      * @param string $fieldName
      * @param string $value
-     * @param Doctrine_Record $record   record to consider; if it does not exists, it is created
+     * @param sfDoctrineRecord $record   record to consider; if it does not exists, it is created
      * @return Doctrine_Validator_ErrorStack $errorStack
      */
-    public function validateField($fieldName, $value, Doctrine_Record $record = null)
+    public function validateField($fieldName, $value, sfDoctrineRecord $record = null)
     {
-        if ($record instanceof Doctrine_Record) {
+        if ($record instanceof sfDoctrineRecord) {
             $errorStack = $record->getErrorStack();
         } else {
             $record  = $this->create();
@@ -2046,9 +2046,9 @@ class Doctrine_Table extends Doctrine_Configurable implements Countable
 
         if ($value === self::$_null) {
             $value = null;
-        } else if ($value instanceof Doctrine_Record && $value->exists()) {
+        } else if ($value instanceof sfDoctrineRecord && $value->exists()) {
             $value = $value->getIncremented();
-        } else if ($value instanceof Doctrine_Record && ! $value->exists()) {
+        } else if ($value instanceof sfDoctrineRecord && ! $value->exists()) {
             foreach($this->getRelations() as $relation) {
                 if ($fieldName == $relation->getLocalFieldName() && (get_class($value) == $relation->getClass() || is_subclass_of($value, $relation->getClass()))) {
                     return $errorStack;
@@ -2115,12 +2115,12 @@ class Doctrine_Table extends Doctrine_Configurable implements Countable
     /**
      * Validates all the unique indexes.
      *
-     * This methods validates 'unique' sets of fields for the given Doctrine_Record instance.
+     * This methods validates 'unique' sets of fields for the given sfDoctrineRecord instance.
      * Pushes error to the record error stack if they are generated.
      *
-     * @param Doctrine_Record $record
+     * @param sfDoctrineRecord $record
      */
-    public function validateUniques(Doctrine_Record $record)
+    public function validateUniques(sfDoctrineRecord $record)
     {
         $errorStack = $record->getErrorStack();
         $validator = Doctrine_Validator::getValidator('unique');
@@ -2283,7 +2283,7 @@ class Doctrine_Table extends Doctrine_Configurable implements Countable
     /**
      * Returns internal data.
      *
-     * This method is used by Doctrine_Record instances
+     * This method is used by sfDoctrineRecord instances
      * when retrieving data from database.
      *
      * @return array
@@ -2387,7 +2387,7 @@ class Doctrine_Table extends Doctrine_Configurable implements Countable
     }
 
     /**
-     * Gets the subclass of Doctrine_Record that belongs to this table.
+     * Gets the subclass of sfDoctrineRecord that belongs to this table.
      *
      * @return string
      */
@@ -2590,7 +2590,7 @@ class Doctrine_Table extends Doctrine_Configurable implements Countable
      *
      * @param string $queryPart
      * @param mixed $value
-     * @return Doctrine_Record          this object
+     * @return sfDoctrineRecord          this object
      */
     public function bindQueryPart($queryPart, $value)
     {
@@ -2704,7 +2704,7 @@ class Doctrine_Table extends Doctrine_Configurable implements Countable
      * Generates a string representation of this object.
      *
      * This method is useful for debugging purposes, or it can be overriden in
-     * Doctrine_Record to provide a value when Record is casted to (string).
+     * sfDoctrineRecord to provide a value when Record is casted to (string).
      *
      * @return string
      */

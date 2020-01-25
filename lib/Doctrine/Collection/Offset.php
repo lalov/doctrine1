@@ -21,7 +21,7 @@
 
 /**
  * Doctrine_Collection_Offset
- * Collection of Doctrine_Record objects.
+ * Collection of sfDoctrineRecord objects.
  *
  * @package     Doctrine
  * @subpackage  Collection

@@ -94,9 +94,9 @@ class Doctrine_Template_Listener_Sluggable extends Doctrine_Record_Listener
     }
 
     /**
-     * Generate the slug for a given Doctrine_Record based on the configured options
+     * Generate the slug for a given sfDoctrineRecord based on the configured options
      *
-     * @param Doctrine_Record $record
+     * @param sfDoctrineRecord $record
      * @return string $slug
      */
     protected function buildSlugFromFields($record)
@@ -125,9 +125,9 @@ class Doctrine_Template_Listener_Sluggable extends Doctrine_Record_Listener
     }
 
     /**
-     * Generate the slug for a given Doctrine_Record slug field
+     * Generate the slug for a given sfDoctrineRecord slug field
      *
-     * @param Doctrine_Record $record
+     * @param sfDoctrineRecord $record
      * @return string $slug
      */
     protected function buildSlugFromSlugField($record)
@@ -143,10 +143,10 @@ class Doctrine_Template_Listener_Sluggable extends Doctrine_Record_Listener
     }
 
     /**
-     * Creates a unique slug for a given Doctrine_Record. This function enforces the uniqueness by
+     * Creates a unique slug for a given sfDoctrineRecord. This function enforces the uniqueness by
      * incrementing the values with a postfix if the slug is not unique
      *
-     * @param Doctrine_Record $record
+     * @param sfDoctrineRecord $record
      * @param string $slugFromFields
      * @return string $slug
      */
@@ -186,7 +186,7 @@ class Doctrine_Template_Listener_Sluggable extends Doctrine_Record_Listener
             } else {
                 $whereString .= ' AND r.'.$uniqueBy.' = ?';
                 $value = $record->$uniqueBy;
-                if ($value instanceof Doctrine_Record) {
+                if ($value instanceof sfDoctrineRecord) {
                     $value = current((array) $value->identifier());
                 }
                 $whereParams[] =  $value;

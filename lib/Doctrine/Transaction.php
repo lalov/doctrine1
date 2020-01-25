@@ -125,11 +125,11 @@ class Doctrine_Transaction extends Doctrine_Connection_Module
      * addInvalid
      * adds record into invalid records list
      *
-     * @param Doctrine_Record $record
+     * @param sfDoctrineRecord $record
      * @return boolean        false if record already existed in invalid records list,
      *                        otherwise true
      */
-    public function addInvalid(Doctrine_Record $record)
+    public function addInvalid(sfDoctrineRecord $record)
     {
         if (in_array($record, $this->invalid, true)) {
             return false;
