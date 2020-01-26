@@ -133,7 +133,11 @@ class Doctrine_Connection_UnitOfWork extends Doctrine_Connection_Module
                             // check that the related object is not an instance of Doctrine_Null
                             if ($obj && ! ($obj instanceof Doctrine_Null)) {
                                 $processDiff = !in_array($alias, $aliasesUnlinkInDb);
-                                $obj->saveUsingDoctrine($conn, $processDiff);
+                                if($obj instanceof Doctrine_Collection){
+                                    $obj->save($conn, $processDiff);
+                                }else{
+                                    $obj->saveUsingDoctrine($conn, $processDiff);
+                                }
                             }
                         }
                     }
