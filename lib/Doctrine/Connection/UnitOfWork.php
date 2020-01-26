@@ -133,7 +133,7 @@ class Doctrine_Connection_UnitOfWork extends Doctrine_Connection_Module
                             // check that the related object is not an instance of Doctrine_Null
                             if ($obj && ! ($obj instanceof Doctrine_Null)) {
                                 $processDiff = !in_array($alias, $aliasesUnlinkInDb);
-                                $obj->save($conn, $processDiff);
+                                $obj->saveUsingDoctrine($conn, $processDiff);
                             }
                         }
                     }
@@ -401,7 +401,7 @@ class Doctrine_Connection_UnitOfWork extends Doctrine_Connection_Module
 
                 // Protection against infinite function recursion before attempting to save
                 if ($obj instanceof sfDoctrineRecord && $obj->isModified()) {
-                    $obj->save($this->conn);
+                    $obj->saveUsingDoctrine($this->conn);
 
                     $id = array_values($obj->identifier());
 
