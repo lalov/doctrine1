@@ -136,7 +136,7 @@ class Doctrine_Connection_UnitOfWork extends Doctrine_Connection_Module
                                 if($obj instanceof Doctrine_Collection){
                                     $obj->save($conn, $processDiff);
                                 }else{
-                                    $obj->saveUsingDoctrine($conn, $processDiff);
+                                    $obj->save([$con], $processDiff);
                                 }
                             }
                         }
@@ -405,7 +405,7 @@ class Doctrine_Connection_UnitOfWork extends Doctrine_Connection_Module
 
                 // Protection against infinite function recursion before attempting to save
                 if ($obj instanceof sfDoctrineRecord && $obj->isModified()) {
-                    $obj->saveUsingDoctrine($this->conn);
+                    $obj->save([$this->conn]);
 
                     $id = array_values($obj->identifier());
 

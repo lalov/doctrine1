@@ -907,7 +907,7 @@ class Doctrine_Collection extends Doctrine_Access implements Countable, Iterator
             }
 
             foreach ($this->getData() as $key => $record) {
-                $record->saveUsingDoctrine($conn);
+                $record->save([$conn]);
             }
 
             $conn->commit();
