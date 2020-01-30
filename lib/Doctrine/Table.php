@@ -298,7 +298,8 @@ class Doctrine_Table extends Doctrine_Configurable implements Countable
         if ( ! class_exists($name) || empty($name)) {
             throw new Doctrine_Exception("Couldn't find class " . $name);
         }
-        $record = new $name($this);
+//        $record = new $name($this);
+        $record = new $name();
 
         $names = array();
 
@@ -1521,7 +1522,8 @@ class Doctrine_Table extends Doctrine_Configurable implements Countable
      */
     public function create(array $array = array())
     {
-        $record = new $this->_options['name']($this, true);
+        $record = new $this->_options['name']($array, true);
+        $record->setTable($this);
         $record->fromArray($array);
 
         return $record;
@@ -1834,7 +1836,8 @@ class Doctrine_Table extends Doctrine_Configurable implements Countable
 
             if ($found) {
                 $recordName = $this->getComponentName();
-                $record = new $recordName($this, true);
+                $record = new $recordName([], true);
+                $record->_table = $this;
                 $this->_data = array();
                 return $record;
             }
@@ -1855,13 +1858,15 @@ class Doctrine_Table extends Doctrine_Configurable implements Countable
                 }
             } else {
                 $recordName = $this->getComponentName();
-                $record = new $recordName($this);
+                $record = new $recordName([]);
+                $record->_table = $this;
                 $this->_identityMap[$id] = $record;
             }
             $this->_data = array();
         } else {
             $recordName = $this->getComponentName();
-            $record = new $recordName($this, true);
+            $record = new $recordName([], true);
+            $record->_table = $this;
         }
 
         return $record;

@@ -217,7 +217,7 @@ abstract class Doctrine_Record extends Doctrine_Record_Abstract implements Count
             // get the table of this class
             $class = get_class($this);
             $this->_table = Doctrine_Core::getTable($class);
-            $exists = false;
+            $exists = ( ! $isNewEntry);
         }
 
         // Check if the current connection has the records table in its registry
