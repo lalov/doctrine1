@@ -136,7 +136,7 @@ class Doctrine_Connection_UnitOfWork extends Doctrine_Connection_Module
                                 if($obj instanceof Doctrine_Collection){
                                     $obj->save($conn, $processDiff);
                                 }else{
-                                    $obj->save([$con], $processDiff);
+                                    $obj->save([$conn], $processDiff);
                                 }
                             }
                         }
