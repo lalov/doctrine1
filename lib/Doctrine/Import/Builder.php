@@ -958,18 +958,33 @@ class Doctrine_Import_Builder extends Doctrine_Builder {
         if ($tableDefinitionCode && $setUpCode) {
             $setUpCode = PHP_EOL . $setUpCode;
         }
-        $eloquentDefinitionCode = $this->buildEloquentRelations($definition);
+        list($codeProperties, $eloquentDefinitionCode) = $this->buildEloquentRelations($definition);
 
         $setUpCode .= $this->buildToString($definition);
 
         $docs = PHP_EOL . $this->buildPhpDocs($definition);
-
-        $content = sprintf(self::$_tpl, $docs, $abstract,
+        $docs = $codeProperties . PHP_EOL . $docs;
+        $content = sprintf(self::$_tpl,
+            $docs,
+            $abstract,
             $className,
             $extends,
             $tableDefinitionCode,
             $eloquentDefinitionCode,
             $setUpCode);
+//        if($definition['tableName'] == 'kamp_klasser'){
+//            dd($docs);
+//
+//            die($content);
+////            dd($className);
+////            dd($extends);
+////            dd($tableDefinitionCode);
+//            dd($eloquentDefinitionCode);
+//            dd($setUpCode);
+//            dd($definition);
+//            dd($eloquentDefinitionCode);
+//        }
+//            dd($definition);
 
         return $content;
     }
@@ -1272,29 +1287,34 @@ class Doctrine_Import_Builder extends Doctrine_Builder {
     }
 
     public function buildEloquentRelations(array $definition) {
-        $ret = array();
-        $used = [];
+        $properties = array();
+        $functions = [];
 
         if ((isset($definition['is_base_class']) && $definition['is_base_class']) || !$this->generateBaseClasses()) {
             if (isset($definition['relations']) && !empty($definition['relations'])) {
-                // find duplicates
-                foreach ($definition['relations'] as $relation) {
-                    if ($relation['type'] == Doctrine_Relation::ONE) {
-                        $functionName = Doctrine_Inflector::tableize($relation['class']);
-                    } else {
-                        $functionName = Doctrine_Inflector::tableize(\Illuminate\Support\Str::plural($relation['class']));
-                    }
-                    $used[$functionName][] = $relation;
-                }
-
                 foreach ($definition['relations'] as $name => $relation) {
                     $type = (isset($relation['type']) && $relation['type'] == Doctrine_Relation::MANY) ? 'Doctrine_Collection' : $this->_classPrefix . $relation['class'];
-                    $class = $relation['class'];
-
                     $name = $this->tableName($name);
+//                    if(isset($definition['columns'][$name])){
+//                        // name is a column.
+//                        if ($relation['type'] == Doctrine_Relation::ONE) {
+//                            dump($name ." -> " . $name. "_obj". "    ". $definition['tableName']);
+//                            $name .= "_obj";
+//
+//                        }else{
+//                            $newName = \Illuminate\Support\Str::pluralStudly($name);
+//                            if(isset($definition['columns'][$newName])){
+//                                $newName = $name . "_col";
+//                            }
+//                            dump($name ." -> " . $newName. "_obj". "    ". $definition['tableName']);
+//                            $name = $newName;
+//
+//                        }
+//                    }
                     if ($relation['type'] == Doctrine_Relation::ONE) {
-                        $ret[] = '    /** @property ' . $type . ' $' . $name . ' */';
-                        $ret[] = '    public function ' . $name . '() { return $this->hasOne(\'' . $type . '\', \'' . $relation['foreign'] . '\',\'' . $relation['local'] . '\' ); }';
+                        // One to one
+                        $properties[] = ' * @property ' . $type . ' $' . $name;
+                        $functions[] = '    public function ' . $name . '() { return $this->hasOne(\'' . $type . '\', \'' . $relation['foreign'] . '\',\'' . $relation['local'] . '\' ); }';
                     } else {
                         if (isset($relation['refClass'])) {
                             // many to many
@@ -1305,8 +1325,8 @@ class Doctrine_Import_Builder extends Doctrine_Builder {
                              * fourth argument is the foreign key name of the model that you are joining to:
                              * return $this->belongsToMany('sfGuardUser', 'sf_guard_user_group', 'group_id', 'user_id');
                              */
-//                            $ret[] = '    public function ' . $name . '() { return $this->belongsToMany(\'' . ($relation['class']) . '\', \'' . $relation['foreign'] . '\',\'' . $relation['local'] . '\' ); }';
-                            $ret[] = '    public function ' . $name
+                            $properties[] = ' * @property ' . $relation['class'] . '[] $' . $name;
+                            $functions[] = '    public function ' . $name
                                 . sprintf("() { return \$this->belongsToMany('%s', '%s', '%s', '%s'); }"
                                     , $relation['class']
                                     , $this->tableName($relation['refClass'])
@@ -1315,20 +1335,23 @@ class Doctrine_Import_Builder extends Doctrine_Builder {
                                 );
                         } else {
                             // one to many
-                            $ret[] = '    public function ' . $name . '() { return $this->hasMany(\'' . $relation['class'] . '\', \'' . $relation['foreign'] . '\',\'' . $relation['local'] . '\' ); }';
+                            $properties[] = ' * @property ' . $relation['class'] . '[] $' . $name;
+                            $functions[] = '    public function ' . $name . '() { return $this->hasMany(\'' . $relation['class'] . '\', \'' . $relation['foreign'] . '\',\'' . $relation['local'] . '\' ); }';
                         }
                     }
 
                 }
             }
-            $ret[] = '';
+            $properties[] = '';
         }
 //        dd($definition, $ret);
-        $code = implode(PHP_EOL, $ret);
-        $code = trim($code) . PHP_EOL;
+        $codeProperties = implode(PHP_EOL, $properties);
+        $codeProperties = trim($codeProperties) . PHP_EOL;
+        $codeFunctions = implode(PHP_EOL, $functions);
+        $codeFunctions = trim($codeFunctions) . PHP_EOL;
 
 
-        return $code;
+        return [ $codeProperties, $codeFunctions ];
     }
 
     public function tableName($class) {
