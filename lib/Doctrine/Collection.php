@@ -21,7 +21,7 @@
 
 /**
  * Doctrine_Collection
- * Collection of Doctrine_Record objects.
+ * Collection of sfDoctrineRecord objects.
  *
  * @package     Doctrine
  * @subpackage  Collection
@@ -49,7 +49,7 @@ class Doctrine_Collection extends Doctrine_Access implements Countable, Iterator
     protected $_snapshot = array();
 
     /**
-     * @var Doctrine_Record $reference      collection can belong to a record
+     * @var sfDoctrineRecord $reference      collection can belong to a record
      */
     protected $reference;
 
@@ -227,7 +227,7 @@ class Doctrine_Collection extends Doctrine_Access implements Countable, Iterator
     /**
      * Get the first record in the collection
      *
-     * @return Doctrine_Record
+     * @return sfDoctrineRecord
      */
     public function getFirst()
     {
@@ -237,7 +237,7 @@ class Doctrine_Collection extends Doctrine_Access implements Countable, Iterator
     /**
      * Get the last record in the collection
      *
-     * @return Doctrine_Record
+     * @return sfDoctrineRecord
      */
     public function getLast()
     {
@@ -247,7 +247,7 @@ class Doctrine_Collection extends Doctrine_Access implements Countable, Iterator
     /**
      * Get the last record in the collection
      *
-     * @return Doctrine_Record
+     * @return sfDoctrineRecord
      */
     public function end()
     {
@@ -257,7 +257,7 @@ class Doctrine_Collection extends Doctrine_Access implements Countable, Iterator
     /**
      * Get the current key
      *
-     * @return Doctrine_Record
+     * @return sfDoctrineRecord
      */
     public function key()
     {
@@ -269,7 +269,7 @@ class Doctrine_Collection extends Doctrine_Access implements Countable, Iterator
      *
      * @return void
      */
-    public function setReference(Doctrine_Record $record, Doctrine_Relation $relation)
+    public function setReference(sfDoctrineRecord $record, Doctrine_Relation $relation)
     {
         $this->reference = $record;
         $this->relation  = $relation;
@@ -293,9 +293,9 @@ class Doctrine_Collection extends Doctrine_Access implements Countable, Iterator
     }
 
     /**
-     * Get reference to Doctrine_Record instance
+     * Get reference to sfDoctrineRecord instance
      *
-     * @return Doctrine_Record $reference
+     * @return sfDoctrineRecord $reference
      */
     public function getReference()
     {
@@ -328,12 +328,12 @@ class Doctrine_Collection extends Doctrine_Access implements Countable, Iterator
     }
 
     /**
-     * Search a Doctrine_Record instance
+     * Search a sfDoctrineRecord instance
      *
      * @param string $Doctrine_Record 
      * @return void
      */
-    public function search(Doctrine_Record $record)
+    public function search(sfDoctrineRecord $record)
     {
         return array_search($record, $this->data, true);
     }
@@ -352,7 +352,7 @@ class Doctrine_Collection extends Doctrine_Access implements Countable, Iterator
      * Collection also maps referential information to newly created records
      *
      * @param mixed $key                    the key of the element
-     * @return Doctrine_Record              return a specified record
+     * @return sfDoctrineRecord              return a specified record
      */
     public function get($key)
     {
@@ -426,10 +426,10 @@ class Doctrine_Collection extends Doctrine_Access implements Countable, Iterator
     }
 
     /**
-     * Set a Doctrine_Record instance to the collection
+     * Set a sfDoctrineRecord instance to the collection
      *
      * @param integer $key
-     * @param Doctrine_Record $record
+     * @param sfDoctrineRecord $record
      * @return void
      */
     public function set($key, $record)
@@ -444,7 +444,7 @@ class Doctrine_Collection extends Doctrine_Access implements Countable, Iterator
     /**
      * Adds a record to collection
      *
-     * @param Doctrine_Record $record              record to be added
+     * @param sfDoctrineRecord $record              record to be added
      * @param string $key                          optional key for the record
      * @return boolean
      */
@@ -871,8 +871,8 @@ class Doctrine_Collection extends Doctrine_Access implements Countable, Iterator
     /**
      * Compares two records. To be used on _snapshot diffs using array_udiff
      *
-     * @param Doctrine_Record $a 
-     * @param Doctrine_Record $b 
+     * @param sfDoctrineRecord $a 
+     * @param sfDoctrineRecord $b 
      * @return integer
      */
     protected function compareRecords($a, $b)
@@ -907,7 +907,7 @@ class Doctrine_Collection extends Doctrine_Access implements Countable, Iterator
             }
 
             foreach ($this->getData() as $key => $record) {
-                $record->save($conn);
+                $record->save([$conn]);
             }
 
             $conn->commit();

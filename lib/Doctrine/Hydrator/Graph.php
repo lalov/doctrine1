@@ -21,7 +21,7 @@
 
 /**
  * Abstract base class for child drivers to hydrate the object graph in to
- * various data types. For example Doctrine_Record instances or PHP arrays
+ * various data types. For example sfDoctrineRecord instances or PHP arrays
  *
  * @package     Doctrine
  * @subpackage  Hydrate

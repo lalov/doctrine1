@@ -90,12 +90,12 @@ class Doctrine_EventListener_Chain extends Doctrine_Access implements Doctrine_E
 
     /**
      * onLoad
-     * an event invoked when Doctrine_Record is being loaded from database
+     * an event invoked when sfDoctrineRecord is being loaded from database
      *
-     * @param Doctrine_Record $record
+     * @param sfDoctrineRecord $record
      * @return void
      */
-    public function onLoad(Doctrine_Record $record)
+    public function onLoad(sfDoctrineRecord $record)
     {
         foreach ($this->_listeners as $listener) {
             $listener->onLoad($record);
@@ -104,13 +104,13 @@ class Doctrine_EventListener_Chain extends Doctrine_Access implements Doctrine_E
 
     /**
      * onPreLoad
-     * an event invoked when Doctrine_Record is being loaded
+     * an event invoked when sfDoctrineRecord is being loaded
      * from database but not yet initialized
      *
-     * @param Doctrine_Record $record
+     * @param sfDoctrineRecord $record
      * @return void
      */
-    public function onPreLoad(Doctrine_Record $record)
+    public function onPreLoad(sfDoctrineRecord $record)
     {
         foreach ($this->_listeners as $listener) {
             $listener->onPreLoad($record);
@@ -119,12 +119,12 @@ class Doctrine_EventListener_Chain extends Doctrine_Access implements Doctrine_E
 
     /**
      * onSleep
-     * an event invoked when Doctrine_Record is serialized
+     * an event invoked when sfDoctrineRecord is serialized
      *
-     * @param Doctrine_Record $record
+     * @param sfDoctrineRecord $record
      * @return void
      */
-    public function onSleep(Doctrine_Record $record)
+    public function onSleep(sfDoctrineRecord $record)
     {
         foreach ($this->_listeners as $listener) {
             $listener->onSleep($record);
@@ -133,12 +133,12 @@ class Doctrine_EventListener_Chain extends Doctrine_Access implements Doctrine_E
 
     /**
      * onWakeUp
-     * an event invoked when Doctrine_Record is unserialized
+     * an event invoked when sfDoctrineRecord is unserialized
      *
-     * @param Doctrine_Record $record
+     * @param sfDoctrineRecord $record
      * @return void
      */
-    public function onWakeUp(Doctrine_Record $record)
+    public function onWakeUp(sfDoctrineRecord $record)
     {
         foreach ($this->_listeners as $listener) {
             $listener->onWakeUp($record);

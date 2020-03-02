@@ -57,7 +57,7 @@ class Doctrine_Template_Searchable extends Doctrine_Template
     }
 
     /**
-     * Make the batchUpdateIndex() function available to the template so Doctrine_Record child classes
+     * Make the batchUpdateIndex() function available to the template so sfDoctrineRecord child classes
      * with the behavior enabled can all the function
      *
      * @param integer $limit 

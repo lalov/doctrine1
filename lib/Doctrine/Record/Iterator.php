@@ -33,7 +33,7 @@
 class Doctrine_Record_Iterator extends ArrayIterator
 {
     /**
-     * @var Doctrine_Record $record
+     * @var sfDoctrineRecord $record
      */
     private $record;
 
@@ -45,9 +45,9 @@ class Doctrine_Record_Iterator extends ArrayIterator
     /**
      * constructor
      *
-     * @param Doctrine_Record $record
+     * @param sfDoctrineRecord $record
      */
-    public function __construct(Doctrine_Record $record)
+    public function __construct(sfDoctrineRecord $record)
     {
         $this->record = $record;
         parent::__construct($record->getData());

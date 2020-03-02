@@ -33,7 +33,7 @@
 class Doctrine_Node implements IteratorAggregate
 {
     /**
-     * @param object    $record   reference to associated Doctrine_Record instance
+     * @param object    $record   reference to associated sfDoctrineRecord instance
      */
     protected $record;
 
@@ -62,10 +62,10 @@ class Doctrine_Node implements IteratorAggregate
     /**
      * contructor, creates node with reference to record and any options
      *
-     * @param object $record                    instance of Doctrine_Record
+     * @param object $record                    instance of sfDoctrineRecord
      * @param array $options                    options
      */
-    public function __construct(Doctrine_Record $record, $options)
+    public function __construct(sfDoctrineRecord $record, $options)
     {
         $this->record = $record;
         $this->options = $options;
@@ -84,7 +84,7 @@ class Doctrine_Node implements IteratorAggregate
                 if ($reflectionClass->isAbstract()) {
                     continue;
                 }
-                if ($class == 'Doctrine_Record') {
+                if ($class == 'sfDoctrineRecord') {
                     throw new Doctrine_Node_Exception("No subclasses specified. You are "
                             . "using Single Table Inheritance with NestedSet but you have "
                             . "not specified the subclasses correctly. Make sure you use "
@@ -106,13 +106,13 @@ class Doctrine_Node implements IteratorAggregate
      * This is a factory method that returns node instance based upon chosen
      * implementation.
      *
-     * @param object $record                    instance of Doctrine_Record
+     * @param object $record                    instance of sfDoctrineRecord
      * @param string $implName                  implementation (NestedSet, AdjacencyList, MaterializedPath)
      * @param array $options                    options
      * @return Doctrine_Node
      * @throws Doctrine_Node_Exception          if $implName is not a valid class
      */
-    public static function factory(Doctrine_Record $record, $implName, $options = array())
+    public static function factory(sfDoctrineRecord $record, $implName, $options = array())
     {
         $class = 'Doctrine_Node_' . $implName;
 
@@ -126,9 +126,9 @@ class Doctrine_Node implements IteratorAggregate
     /**
      * setter for record attribute
      *
-     * @param object $record                    instance of Doctrine_Record
+     * @param object $record                    instance of sfDoctrineRecord
      */
-    public function setRecord(Doctrine_Record $record)
+    public function setRecord(sfDoctrineRecord $record)
     {
         $this->record = $record;
     }
@@ -136,7 +136,7 @@ class Doctrine_Node implements IteratorAggregate
     /**
      * getter for record attribute
      *
-     * @return Doctrine_Record
+     * @return sfDoctrineRecord
      */
     public function getRecord()
     {

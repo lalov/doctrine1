@@ -20,7 +20,7 @@
  */
 
 /**
- * Doctrine_Record
+ * sfDoctrineRecord
  * All record classes should inherit this super class
  *
  * @package     Doctrine
@@ -39,39 +39,39 @@ abstract class Doctrine_Record extends Doctrine_Record_Abstract implements Count
 
     /**
      * DIRTY STATE
-     * a Doctrine_Record is in dirty state when its properties are changed
+     * a sfDoctrineRecord is in dirty state when its properties are changed
      */
     const STATE_DIRTY       = 1;
 
     /**
      * TDIRTY STATE
-     * a Doctrine_Record is in transient dirty state when it is created
+     * a sfDoctrineRecord is in transient dirty state when it is created
      * and some of its fields are modified but it is NOT yet persisted into database
      */
     const STATE_TDIRTY      = 2;
 
     /**
      * CLEAN STATE
-     * a Doctrine_Record is in clean state when all of its properties are loaded from the database
+     * a sfDoctrineRecord is in clean state when all of its properties are loaded from the database
      * and none of its properties are changed
      */
     const STATE_CLEAN       = 3;
 
     /**
      * PROXY STATE
-     * a Doctrine_Record is in proxy state when its properties are not fully loaded
+     * a sfDoctrineRecord is in proxy state when its properties are not fully loaded
      */
     const STATE_PROXY       = 4;
 
     /**
      * NEW TCLEAN
-     * a Doctrine_Record is in transient clean state when it is created and none of its fields are modified
+     * a sfDoctrineRecord is in transient clean state when it is created and none of its fields are modified
      */
     const STATE_TCLEAN      = 5;
 
     /**
      * LOCKED STATE
-     * a Doctrine_Record is temporarily locked during deletes and saves
+     * a sfDoctrineRecord is temporarily locked during deletes and saves
      *
      * This state is used internally to ensure that circular deletes
      * and saves will not cause infinite loops
@@ -80,7 +80,7 @@ abstract class Doctrine_Record extends Doctrine_Record_Abstract implements Count
 
  	/**
  	 * TLOCKED STATE
- 	 * a Doctrine_Record is temporarily locked (and transient) during deletes and saves
+ 	 * a sfDoctrineRecord is temporarily locked (and transient) during deletes and saves
  	 *
  	 * This state is used internally to ensure that circular deletes
  	 * and saves will not cause infinite loops
@@ -174,7 +174,7 @@ abstract class Doctrine_Record extends Doctrine_Record_Abstract implements Count
     protected static $_customMutators = array();
 
     /**
-     * Whether or not to serialize references when a Doctrine_Record is serialized
+     * Whether or not to serialize references when a sfDoctrineRecord is serialized
      *
      * @var boolean
      */
@@ -243,18 +243,18 @@ abstract class Doctrine_Record extends Doctrine_Record_Abstract implements Count
 
         if ( ! $exists) {
             if ($count > count($this->_values)) {
-                $this->_state = Doctrine_Record::STATE_TDIRTY;
+                $this->_state = sfDoctrineRecord::STATE_TDIRTY;
             } else {
-                $this->_state = Doctrine_Record::STATE_TCLEAN;
+                $this->_state = sfDoctrineRecord::STATE_TCLEAN;
             }
 
             // set the default values for this record
             $this->assignDefaultValues();
         } else {
-            $this->_state = Doctrine_Record::STATE_CLEAN;
+            $this->_state = sfDoctrineRecord::STATE_CLEAN;
 
             if ($this->isInProxyState()) {
-                $this->_state  = Doctrine_Record::STATE_PROXY;
+                $this->_state  = sfDoctrineRecord::STATE_PROXY;
             }
         }
 
@@ -421,7 +421,7 @@ abstract class Doctrine_Record extends Doctrine_Record_Abstract implements Count
             $this->_state = $this->exists() ? self::STATE_LOCKED : self::STATE_TLOCKED;
 
             foreach ($this->_references as $reference) {
-                if ($reference instanceof Doctrine_Record) {
+                if ($reference instanceof sfDoctrineRecord) {
                     if ( ! $valid = $reference->isValid($deep)) {
                         break;
                     }
@@ -695,7 +695,7 @@ abstract class Doctrine_Record extends Doctrine_Record_Abstract implements Count
             if ($value === self::$_null || $overwrite) {
                 $this->_data[$column] = $default;
                 $this->_modified[]    = $column;
-                $this->_state = Doctrine_Record::STATE_TDIRTY;
+                $this->_state = sfDoctrineRecord::STATE_TDIRTY;
             }
         }
     }
@@ -792,7 +792,7 @@ abstract class Doctrine_Record extends Doctrine_Record_Abstract implements Count
 
     /**
      * serialize
-     * this method is automatically called when an instance of Doctrine_Record is serialized
+     * this method is automatically called when an instance of sfDoctrineRecord is serialized
      *
      * @return string
      */
@@ -819,7 +819,7 @@ abstract class Doctrine_Record extends Doctrine_Record_Abstract implements Count
         }
 
         foreach ($data as $k => $v) {
-            if ($v instanceof Doctrine_Record && $this->_table->getTypeOf($k) != 'object') {
+            if ($v instanceof sfDoctrineRecord && $this->_table->getTypeOf($k) != 'object') {
                 unset($vars['_data'][$k]);
             } elseif ($v === self::$_null) {
                 unset($vars['_data'][$k]);
@@ -852,7 +852,7 @@ abstract class Doctrine_Record extends Doctrine_Record_Abstract implements Count
     /**
      * this method is automatically called everytime an instance is unserialized
      *
-     * @param string $serialized                Doctrine_Record as serialized string
+     * @param string $serialized                sfDoctrineRecord as serialized string
      * @throws Doctrine_Record_Exception        if the cleanData operation fails somehow
      * @return void
      */
@@ -918,7 +918,7 @@ abstract class Doctrine_Record extends Doctrine_Record_Abstract implements Count
      * assigns the state of this record or returns it if called without parameters
      *
      * @param integer|string $state                 if set, this method tries to set the record state to $state
-     * @see Doctrine_Record::STATE_* constants
+     * @see sfDoctrineRecord::STATE_* constants
      *
      * @throws Doctrine_Record_State_Exception      if trying to set an unknown state
      * @return null|integer
@@ -939,7 +939,7 @@ abstract class Doctrine_Record extends Doctrine_Record_Abstract implements Count
         } else if (is_string($state)) {
             $upper = strtoupper($state);
 
-            $const = 'Doctrine_Record::STATE_' . $upper;
+            $const = 'sfDoctrineRecord::STATE_' . $upper;
             if (defined($const)) {
                 $this->_state = constant($const);
             } else {
@@ -947,8 +947,8 @@ abstract class Doctrine_Record extends Doctrine_Record_Abstract implements Count
             }
         }
 
-        if ($this->_state === Doctrine_Record::STATE_TCLEAN ||
-                $this->_state === Doctrine_Record::STATE_CLEAN) {
+        if ($this->_state === sfDoctrineRecord::STATE_TCLEAN ||
+                $this->_state === sfDoctrineRecord::STATE_CLEAN) {
             $this->_resetModified();
         }
 
@@ -1008,7 +1008,7 @@ abstract class Doctrine_Record extends Doctrine_Record_Abstract implements Count
 
         $this->prepareIdentifiers();
 
-        $this->_state = Doctrine_Record::STATE_CLEAN;
+        $this->_state = sfDoctrineRecord::STATE_CLEAN;
 
         return $this;
     }
@@ -1020,7 +1020,7 @@ abstract class Doctrine_Record extends Doctrine_Record_Abstract implements Count
      * @param string $name              name of a related component.
      *                                  if set, this method only refreshes the specified related component
      *
-     * @return Doctrine_Record          this object
+     * @return sfDoctrineRecord          this object
      */
     public function refreshRelated($name = null)
     {
@@ -1031,7 +1031,7 @@ abstract class Doctrine_Record extends Doctrine_Record_Abstract implements Count
                 $reference = $rel->fetchRelatedFor($this);
                 if ($reference instanceof Doctrine_Collection) {
                     $this->_references[$alias] = $reference;
-                } else if ($reference instanceof Doctrine_Record) {
+                } else if ($reference instanceof sfDoctrineRecord) {
                     if ($reference->exists()) {
                         $this->_references[$alias] = $reference;
                     } else {
@@ -1045,7 +1045,7 @@ abstract class Doctrine_Record extends Doctrine_Record_Abstract implements Count
             $reference = $rel->fetchRelatedFor($this);
             if ($reference instanceof Doctrine_Collection) {
                 $this->_references[$name] = $reference;
-            } else if ($reference instanceof Doctrine_Record) {
+            } else if ($reference instanceof sfDoctrineRecord) {
                 if ($reference->exists()) {
                     $this->_references[$name] = $reference;
                 } else {
@@ -1085,12 +1085,12 @@ abstract class Doctrine_Record extends Doctrine_Record_Abstract implements Count
         }
 
         $reference = $this->$name;
-        if ($reference instanceof Doctrine_Record) {
+        if ($reference instanceof sfDoctrineRecord) {
             $exists = $reference->exists();
         } elseif ($reference instanceof Doctrine_Collection) {
             throw new Doctrine_Record_Exception(
                 'You can only call relatedExists() on a relationship that '.
-                'returns an instance of Doctrine_Record'
+                'returns an instance of sfDoctrineRecord'
             );
         } else {
             $exists = false;
@@ -1152,7 +1152,7 @@ abstract class Doctrine_Record extends Doctrine_Record_Abstract implements Count
      */
     public function load(array $data = array())
     {
-        // only load the data from database if the Doctrine_Record is in proxy state
+        // only load the data from database if the sfDoctrineRecord is in proxy state
         if ($this->exists() && $this->isInProxyState()) {
             $id = $this->identifier();
 
@@ -1176,9 +1176,9 @@ abstract class Doctrine_Record extends Doctrine_Record_Abstract implements Count
             }
 
             if ($this->isModified()) {
-                $this->_state = Doctrine_Record::STATE_DIRTY;
+                $this->_state = sfDoctrineRecord::STATE_DIRTY;
             } else if (!$this->isInProxyState()) {
-                $this->_state = Doctrine_Record::STATE_CLEAN;
+                $this->_state = sfDoctrineRecord::STATE_CLEAN;
             }
 
             return true;
@@ -1442,7 +1442,7 @@ abstract class Doctrine_Record extends Doctrine_Record_Abstract implements Count
      * @throws Doctrine_Record_Exception    if trying to set a value for unknown property / related component
      * @throws Doctrine_Record_Exception    if trying to set a value of wrong type for related component
      *
-     * @return Doctrine_Record
+     * @return sfDoctrineRecord
      */
     public function set($fieldName, $value, $load = true)
     {
@@ -1466,7 +1466,7 @@ abstract class Doctrine_Record extends Doctrine_Record_Abstract implements Count
             $this->_values[$fieldName] = $value;
         } else if (array_key_exists($fieldName, $this->_data)) {
             $type = $this->_table->getTypeOf($fieldName);
-            if ($value instanceof Doctrine_Record) {
+            if ($value instanceof sfDoctrineRecord) {
                 $id = $value->getIncremented();
 
                 if ($id !== null && $type !== 'object') {
@@ -1489,12 +1489,12 @@ abstract class Doctrine_Record extends Doctrine_Record_Abstract implements Count
                 $this->_oldValues[$fieldName] = $old;
 
                 switch ($this->_state) {
-                    case Doctrine_Record::STATE_CLEAN:
-                    case Doctrine_Record::STATE_PROXY:
-                        $this->_state = Doctrine_Record::STATE_DIRTY;
+                    case sfDoctrineRecord::STATE_CLEAN:
+                    case sfDoctrineRecord::STATE_PROXY:
+                        $this->_state = sfDoctrineRecord::STATE_DIRTY;
                         break;
-                    case Doctrine_Record::STATE_TCLEAN:
-                        $this->_state = Doctrine_Record::STATE_TDIRTY;
+                    case sfDoctrineRecord::STATE_TCLEAN:
+                        $this->_state = sfDoctrineRecord::STATE_TDIRTY;
                         break;
                 }
             }
@@ -1567,7 +1567,7 @@ abstract class Doctrine_Record extends Doctrine_Record_Abstract implements Count
      * relations, populating the foreign keys accordingly.
      *
      * @param string $name                                  related component alias in the relation
-     * @param Doctrine_Record|Doctrine_Collection $value    object to be linked as a related component
+     * @param sfDoctrineRecord|Doctrine_Collection $value    object to be linked as a related component
      * @todo Refactor. What about composite keys?
      */
     public function coreSetRelated($name, $value)
@@ -1600,8 +1600,8 @@ abstract class Doctrine_Record extends Doctrine_Record_Abstract implements Count
                 }
 
                 // one-to-one relation found
-                if ( ! ($value instanceof Doctrine_Record) && ! ($value instanceof Doctrine_Null)) {
-                    throw new Doctrine_Record_Exception("Couldn't call Doctrine_Core::set(), second argument should be an instance of Doctrine_Record or Doctrine_Null when setting one-to-one references.");
+                if ( ! ($value instanceof sfDoctrineRecord) && ! ($value instanceof Doctrine_Null)) {
+                    throw new Doctrine_Record_Exception("Couldn't call Doctrine_Core::set(), second argument should be an instance of sfDoctrineRecord or Doctrine_Null when setting one-to-one references.");
                 }
 
                 if ($rel instanceof Doctrine_Relation_LocalKey) {
@@ -1612,7 +1612,7 @@ abstract class Doctrine_Record extends Doctrine_Record_Abstract implements Count
                         $this->set($localFieldName, $value, false);
                     }
                 } elseif ($value !== self::$_null) {
-                    // We should only be able to reach $foreignFieldName if we have a Doctrine_Record on hands
+                    // We should only be able to reach $foreignFieldName if we have a sfDoctrineRecord on hands
                     $value->set($foreignFieldName, $this, false);
                 }
             }
@@ -1663,7 +1663,7 @@ abstract class Doctrine_Record extends Doctrine_Record_Abstract implements Count
         if (array_key_exists($name, $this->_data)) {
             $this->_data[$name] = array();
         } else if (isset($this->_references[$name])) {
-            if ($this->_references[$name] instanceof Doctrine_Record) {
+            if ($this->_references[$name] instanceof sfDoctrineRecord) {
                 $this->_pendingDeletes[] = $this->$name;
                 $this->_references[$name] = self::$_null;
             } elseif ($this->_references[$name] instanceof Doctrine_Collection) {
@@ -1674,7 +1674,7 @@ abstract class Doctrine_Record extends Doctrine_Record_Abstract implements Count
     }
 
     /**
-     * returns Doctrine_Record instances which need to be deleted on save
+     * returns sfDoctrineRecord instances which need to be deleted on save
      *
      * @return array
      */
@@ -1684,7 +1684,7 @@ abstract class Doctrine_Record extends Doctrine_Record_Abstract implements Count
     }
 
     /**
-     * returns Doctrine_Record instances which need to be unlinked (deleting the relation) on save
+     * returns sfDoctrineRecord instances which need to be unlinked (deleting the relation) on save
      *
      * @return array $pendingUnlinks
      */
@@ -1724,7 +1724,7 @@ abstract class Doctrine_Record extends Doctrine_Record_Abstract implements Count
 
     /**
      * tries to save the object and all its related components.
-     * In contrast to Doctrine_Record::save(), this method does not
+     * In contrast to sfDoctrineRecord::save(), this method does not
      * throw an exception when validation fails but returns TRUE on
      * success or FALSE on failure.
      *
@@ -1846,7 +1846,7 @@ abstract class Doctrine_Record extends Doctrine_Record_Abstract implements Count
                     }
                 break;
                 default:
-                    if ($this->_data[$field] instanceof Doctrine_Record) {
+                    if ($this->_data[$field] instanceof sfDoctrineRecord) {
                         $a[$field] = $this->_data[$field]->getIncremented();
                         if ($a[$field] !== null) {
                             $this->_data[$field] = $a[$field];
@@ -1911,7 +1911,7 @@ abstract class Doctrine_Record extends Doctrine_Record_Abstract implements Count
 
             $columnValue = $this->get($column, false);
 
-            if ($columnValue instanceof Doctrine_Record) {
+            if ($columnValue instanceof sfDoctrineRecord) {
                 $a[$column] = $columnValue->getIncremented();
             } else {
                 $a[$column] = $columnValue;
@@ -1933,7 +1933,7 @@ abstract class Doctrine_Record extends Doctrine_Record_Abstract implements Count
 
         // [FIX] Prevent mapped Doctrine_Records from being displayed fully
         foreach ($this->_values as $key => $value) {
-            $a[$key] = ($value instanceof Doctrine_Record || $value instanceof Doctrine_Collection)
+            $a[$key] = ($value instanceof sfDoctrineRecord || $value instanceof Doctrine_Collection)
                 ? $value->toArray($deep, $prefixKey) : $value;
         }
 
@@ -2013,15 +2013,15 @@ abstract class Doctrine_Record extends Doctrine_Record_Abstract implements Count
     }
 
     /**
-     * synchronizes a Doctrine_Record instance and its relations with data from an array
+     * synchronizes a sfDoctrineRecord instance and its relations with data from an array
      *
-     * it expects an array representation of a Doctrine_Record similar to the return
+     * it expects an array representation of a sfDoctrineRecord similar to the return
      * value of the toArray() method. If the array contains relations it will create
      * those that don't exist, update the ones that do, and delete the ones missing
-     * on the array but available on the Doctrine_Record (unlike @see fromArray() that
+     * on the array but available on the sfDoctrineRecord (unlike @see fromArray() that
      * does not touch what it is not in $array)
      *
-     * @param array $array representation of a Doctrine_Record
+     * @param array $array representation of a sfDoctrineRecord
      * @param bool   $deep   whether or not to act on relations
      */
     public function synchronizeWithArray(array $array, $deep = true)
@@ -2106,9 +2106,9 @@ abstract class Doctrine_Record extends Doctrine_Record_Abstract implements Count
      */
     public function exists()
     {
-        return ($this->_state !== Doctrine_Record::STATE_TCLEAN  &&
-                $this->_state !== Doctrine_Record::STATE_TDIRTY  &&
-                $this->_state !== Doctrine_Record::STATE_TLOCKED &&
+        return ($this->_state !== sfDoctrineRecord::STATE_TCLEAN  &&
+                $this->_state !== sfDoctrineRecord::STATE_TDIRTY  &&
+                $this->_state !== sfDoctrineRecord::STATE_TLOCKED &&
                 $this->_state !== null);
     }
 
@@ -2120,8 +2120,8 @@ abstract class Doctrine_Record extends Doctrine_Record_Abstract implements Count
      */
     public function isModified($deep = false)
     {
-        $modified = ($this->_state === Doctrine_Record::STATE_DIRTY ||
-                $this->_state === Doctrine_Record::STATE_TDIRTY);
+        $modified = ($this->_state === sfDoctrineRecord::STATE_DIRTY ||
+                $this->_state === sfDoctrineRecord::STATE_TDIRTY);
         if ( ! $modified && $deep) {
             if ($this->_state == self::STATE_LOCKED || $this->_state == self::STATE_TLOCKED) {
                 return false;
@@ -2131,7 +2131,7 @@ abstract class Doctrine_Record extends Doctrine_Record_Abstract implements Count
             $this->_state = $this->exists() ? self::STATE_LOCKED : self::STATE_TLOCKED;
 
             foreach ($this->_references as $reference) {
-                if ($reference instanceof Doctrine_Record) {
+                if ($reference instanceof sfDoctrineRecord) {
                     if ($modified = $reference->isModified($deep)) {
                         break;
                     }
@@ -2190,7 +2190,7 @@ abstract class Doctrine_Record extends Doctrine_Record_Abstract implements Count
      * generates a copy of this object. Returns an instance of the same class of $this.
      *
      * @param boolean $deep     whether to duplicates the objects targeted by the relations
-     * @return Doctrine_Record
+     * @return sfDoctrineRecord
      */
     public function copy($deep = false)
     {
@@ -2217,7 +2217,7 @@ abstract class Doctrine_Record extends Doctrine_Record_Abstract implements Count
                     foreach ($value as $valueKey => $record) {
                         $ret->{$key}[$valueKey] = $record->copy($deep);
                     }
-                } else if ($value instanceof Doctrine_Record) {
+                } else if ($value instanceof sfDoctrineRecord) {
                     $ret->set($key, $value->copy($deep));
                 }
             }
@@ -2237,11 +2237,11 @@ abstract class Doctrine_Record extends Doctrine_Record_Abstract implements Count
         if ($id === false) {
             $this->_id       = array();
             $this->_data     = $this->cleanData($this->_data);
-            $this->_state    = Doctrine_Record::STATE_TCLEAN;
+            $this->_state    = sfDoctrineRecord::STATE_TCLEAN;
             $this->_resetModified();
         } elseif ($id === true) {
             $this->prepareIdentifiers(true);
-            $this->_state    = Doctrine_Record::STATE_CLEAN;
+            $this->_state    = sfDoctrineRecord::STATE_CLEAN;
             $this->_resetModified();
         } else {
             if (is_array($id)) {
@@ -2254,7 +2254,7 @@ abstract class Doctrine_Record extends Doctrine_Record_Abstract implements Count
                 $this->_id[$name] = $id;
                 $this->_data[$name] = $id;
             }
-            $this->_state = Doctrine_Record::STATE_CLEAN;
+            $this->_state = sfDoctrineRecord::STATE_CLEAN;
             $this->_resetModified();
         }
     }
@@ -2291,7 +2291,7 @@ abstract class Doctrine_Record extends Doctrine_Record_Abstract implements Count
      * it is needed to provide compatibility between
      * records and collections
      *
-     * @return Doctrine_Record
+     * @return sfDoctrineRecord
      */
     public function getLast()
     {
@@ -2312,7 +2312,7 @@ abstract class Doctrine_Record extends Doctrine_Record_Abstract implements Count
      * gets a related component
      *
      * @param string $name
-     * @return Doctrine_Record|Doctrine_Collection
+     * @return sfDoctrineRecord|Doctrine_Collection
      */
     public function reference($name)
     {
@@ -2337,7 +2337,7 @@ abstract class Doctrine_Record extends Doctrine_Record_Abstract implements Count
 
     /**
      * get all related components
-     * @return array    various Doctrine_Collection or Doctrine_Record instances
+     * @return array    various Doctrine_Collection or sfDoctrineRecord instances
      */
     public function getReferences()
     {
@@ -2375,7 +2375,7 @@ abstract class Doctrine_Record extends Doctrine_Record_Abstract implements Count
      * @param string|array $callback    valid callback
      * @param string $column            column name
      * @param mixed arg1 ... argN       optional callback arguments
-     * @return Doctrine_Record provides a fluent interface
+     * @return sfDoctrineRecord provides a fluent interface
      */
     public function call($callback, $column)
     {
@@ -2427,7 +2427,7 @@ abstract class Doctrine_Record extends Doctrine_Record_Abstract implements Count
      * @param string $alias     related component alias
      * @param array $ids        the identifiers of the related records
      * @param boolean $now      whether or not to execute now or set as pending unlinks
-     * @return Doctrine_Record  this object (fluent interface)
+     * @return sfDoctrineRecord  this object (fluent interface)
      */
     public function unlink($alias, $ids = array(), $now = false)
     {
@@ -2440,7 +2440,7 @@ abstract class Doctrine_Record extends Doctrine_Record_Abstract implements Count
 
         $allIds = array();
         if (isset($this->_references[$alias])) {
-            if ($this->_references[$alias] instanceof Doctrine_Record) {
+            if ($this->_references[$alias] instanceof sfDoctrineRecord) {
                 $allIds[] = $this->_references[$alias]->identifier();
                 if (in_array($this->_references[$alias]->identifier(), $ids) || empty($ids)) {
                     unset($this->_references[$alias]);
@@ -2472,7 +2472,7 @@ abstract class Doctrine_Record extends Doctrine_Record_Abstract implements Count
      * unlink now the related components, querying the db
      * @param string $alias     related component alias
      * @param array $ids        the identifiers of the related records
-     * @return Doctrine_Record  this object (fluent interface)
+     * @return sfDoctrineRecord  this object (fluent interface)
      */
     public function unlinkInDb($alias, $ids = array())
     {
@@ -2510,7 +2510,7 @@ abstract class Doctrine_Record extends Doctrine_Record_Abstract implements Count
      * @param string $alias     related component alias
      * @param array $ids        the identifiers of the related records
      * @param boolean $now      wether or not to execute now or set pending
-     * @return Doctrine_Record  this object (fluent interface)
+     * @return sfDoctrineRecord  this object (fluent interface)
      */
     public function link($alias, $ids, $now = false)
     {
@@ -2527,7 +2527,7 @@ abstract class Doctrine_Record extends Doctrine_Record_Abstract implements Count
                 ->execute();
 
             foreach ($records as $record) {
-                if ($this->$alias instanceof Doctrine_Record) {
+                if ($this->$alias instanceof sfDoctrineRecord) {
                     $this->set($alias, $record);
                 } else {
                     if ($c = $this->get($alias)) {
@@ -2555,7 +2555,7 @@ abstract class Doctrine_Record extends Doctrine_Record_Abstract implements Count
      *
      * @param string $alias     related component alias
      * @param array $ids        the identifiers of the related records
-     * @return Doctrine_Record  this object (fluent interface)
+     * @return sfDoctrineRecord  this object (fluent interface)
      */
     public function linkInDb($alias, $ids)
     {

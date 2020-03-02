@@ -148,10 +148,10 @@ class Doctrine_AuditLog_Listener extends Doctrine_Record_Listener
     /**
      * Get the initial version number for the audit log
      *
-     * @param Doctrine_Record $record
+     * @param sfDoctrineRecord $record
      * @return integer $initialVersion
      */
-    protected function _getInitialVersion(Doctrine_Record $record)
+    protected function _getInitialVersion(sfDoctrineRecord $record)
     {
         return 1;
     }
@@ -159,10 +159,10 @@ class Doctrine_AuditLog_Listener extends Doctrine_Record_Listener
     /**
      * Get the next version number for the audit log
      *
-     * @param Doctrine_Record $record 
+     * @param sfDoctrineRecord $record
      * @return integer $nextVersion
      */
-    protected function _getNextVersion(Doctrine_Record $record)
+    protected function _getNextVersion(sfDoctrineRecord $record)
     {
       if ($this->_auditLog->getOption('auditLog')) {
           return ($this->_auditLog->getMaxVersion($record) + 1);

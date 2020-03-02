@@ -35,9 +35,9 @@ class Doctrine_Lib
     /**
      * Generates a human readable representation of a record's state.
      *
-     * This method translates a Doctrine_Record state (integer constant) 
+     * This method translates a sfDoctrineRecord state (integer constant)
      * in an english string.
-     * @see Doctrine_Record::STATE_* constants
+     * @see sfDoctrineRecord::STATE_* constants
      *
      * @param integer $state    the state of record
      * @return string           description of given state
@@ -45,19 +45,19 @@ class Doctrine_Lib
     public static function getRecordStateAsString($state)
     {
         switch ($state) {
-            case Doctrine_Record::STATE_PROXY:
+            case sfDoctrineRecord::STATE_PROXY:
                 return "proxy";
                 break;
-            case Doctrine_Record::STATE_CLEAN:
+            case sfDoctrineRecord::STATE_CLEAN:
                 return "persistent clean";
                 break;
-            case Doctrine_Record::STATE_DIRTY:
+            case sfDoctrineRecord::STATE_DIRTY:
                 return "persistent dirty";
                 break;
-            case Doctrine_Record::STATE_TDIRTY:
+            case sfDoctrineRecord::STATE_TDIRTY:
                 return "transient dirty";
                 break;
-            case Doctrine_Record::STATE_TCLEAN:
+            case sfDoctrineRecord::STATE_TCLEAN:
                 return "transient clean";
                 break;
         }
@@ -69,10 +69,10 @@ class Doctrine_Lib
      * This method returns an html representation of a given
      * record, containing keys, state and data.
      *
-     * @param Doctrine_Record $record
+     * @param sfDoctrineRecord $record
      * @return string
      */
-    public static function getRecordAsString(Doctrine_Record $record)
+    public static function getRecordAsString(sfDoctrineRecord $record)
     {
         $r[] = '<pre>';
         $r[] = 'Component  : ' . $record->getTable()->getComponentName();
@@ -142,12 +142,13 @@ class Doctrine_Lib
      */
     public static function getTableAsString(Doctrine_Table $table)
     {
-        $r[] = "<pre>";
-        $r[] = "Component   : ".$table->getComponentName();
-        $r[] = "Table       : ".$table->getTableName();
-        $r[] = "</pre>";
-        
-        return implode("\n",$r)."<br>";
+        return $table->getTableName();
+//        $r[] = "<pre>";
+//        $r[] = "Component   : ".$table->getComponentName();
+//        $r[] = "Table       : ".$table->getTableName();
+//        $r[] = "</pre>";
+//
+//        return implode("\n",$r)."<br>";
     }
 
     /**

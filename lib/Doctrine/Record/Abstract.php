@@ -62,7 +62,7 @@ abstract class Doctrine_Record_Abstract extends Doctrine_Access
      * addListener
      *
      * @param Doctrine_EventListener_Interface|Doctrine_Overloadable $listener
-     * @return Doctrine_Record
+     * @return sfDoctrineRecord
      */
     public function addListener($listener, $name = null)
     {
@@ -85,7 +85,7 @@ abstract class Doctrine_Record_Abstract extends Doctrine_Access
      * setListener
      *
      * @param Doctrine_EventListener_Interface|Doctrine_Overloadable $listener
-     * @return Doctrine_Record
+     * @return sfDoctrineRecord
      */
     public function setListener($listener)
     {
@@ -224,7 +224,7 @@ abstract class Doctrine_Record_Abstract extends Doctrine_Access
      * @param string $componentName     the name of the related component
      * @param string $options           relation options
      * @see Doctrine_Relation::_$definition
-     * @return Doctrine_Record          this object
+     * @return sfDoctrineRecord          this object
      */
     public function hasOne()
     {
@@ -239,7 +239,7 @@ abstract class Doctrine_Record_Abstract extends Doctrine_Access
      * @param string $componentName     the name of the related component
      * @param string $options           relation options
      * @see Doctrine_Relation::_$definition
-     * @return Doctrine_Record          this object
+     * @return sfDoctrineRecord          this object
      */
     public function hasMany()
     {
@@ -317,7 +317,7 @@ abstract class Doctrine_Record_Abstract extends Doctrine_Access
      * binds query parts to given component
      *
      * @param array $queryParts         an array of pre-bound query parts
-     * @return Doctrine_Record          this object
+     * @return sfDoctrineRecord          this object
      */
     public function bindQueryParts(array $queryParts)
     {
@@ -344,7 +344,7 @@ abstract class Doctrine_Record_Abstract extends Doctrine_Access
      *                          If a string, Doctrine will try to instantiate an object of the classes Doctrine_Template_$tpl and subsequently $tpl, using also autoloading capabilities if defined.
      * @param array $options    argument to pass to the template constructor if $tpl is a class name
      * @throws Doctrine_Record_Exception    if $tpl is neither an instance of Doctrine_Template subclass or a valid class name, that could be instantiated.
-     * @return Doctrine_Record  this object; provides a fluent interface.
+     * @return sfDoctrineRecord  this object; provides a fluent interface.
      */
     public function actAs($tpl, array $options = array())
     {
@@ -383,7 +383,7 @@ abstract class Doctrine_Record_Abstract extends Doctrine_Access
      *
      * @param mixed $constraint     either a SQL constraint portion or an array of CHECK constraints. If array, all values will be added as constraint
      * @param string $name          optional constraint name. Not used if $constraint is an array.
-     * @return Doctrine_Record      this object
+     * @return sfDoctrineRecord      this object
      */
     public function check($constraint, $name = null)
     {

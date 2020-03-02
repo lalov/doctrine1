@@ -360,10 +360,10 @@ abstract class Doctrine_Relation implements ArrayAccess
      *
      * fetches a component related to given record
      *
-     * @param Doctrine_Record $record
-     * @return Doctrine_Record|Doctrine_Collection
+     * @param sfDoctrineRecord $record
+     * @return sfDoctrineRecord|Doctrine_Collection
      */
-    abstract public function fetchRelatedFor(Doctrine_Record $record);
+    abstract public function fetchRelatedFor(sfDoctrineRecord $record);
 
     /**
      * Get the name of the foreign key for this relationship

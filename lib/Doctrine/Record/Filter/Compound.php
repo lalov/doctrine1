@@ -49,11 +49,11 @@ class Doctrine_Record_Filter_Compound extends Doctrine_Record_Filter
 
     /**
      * filterSet
-     * defines an implementation for filtering the set() method of Doctrine_Record
+     * defines an implementation for filtering the set() method of sfDoctrineRecord
      *
      * @param mixed $name                       name of the property or related component
      */
-    public function filterSet(Doctrine_Record $record, $name, $value)
+    public function filterSet(sfDoctrineRecord $record, $name, $value)
     {
         foreach ($this->_aliases as $alias) {
             $relation = $record[$alias];
@@ -78,11 +78,11 @@ class Doctrine_Record_Filter_Compound extends Doctrine_Record_Filter
 
     /**
      * filterGet
-     * defines an implementation for filtering the get() method of Doctrine_Record
+     * defines an implementation for filtering the get() method of sfDoctrineRecord
      *
      * @param mixed $name                       name of the property or related component
      */
-    public function filterGet(Doctrine_Record $record, $name)
+    public function filterGet(sfDoctrineRecord $record, $name)
     {
         foreach ($this->_aliases as $alias) {
             if ( ! $record->exists()) {

@@ -57,10 +57,10 @@ class Doctrine_AuditLog_Listener_Microtime extends Doctrine_AuditLog_Listener
     /**
      * Get the initial version number for the audit log
      *
-     * @param Doctrine_Record $record
+     * @param sfDoctrineRecord $record
      * @return integer $initialVersion
      */
-    protected function _getInitialVersion(Doctrine_Record $record)
+    protected function _getInitialVersion(sfDoctrineRecord $record)
     {
         return $this->_microtime();
     }
@@ -68,10 +68,10 @@ class Doctrine_AuditLog_Listener_Microtime extends Doctrine_AuditLog_Listener
     /**
      * Get the next version number for the audit log
      *
-     * @param Doctrine_Record $record
+     * @param sfDoctrineRecord $record
      * @return integer $nextVersion
      */
-    protected function _getNextVersion(Doctrine_Record $record)
+    protected function _getNextVersion(sfDoctrineRecord $record)
     {
         return $this->_microtime();
     }

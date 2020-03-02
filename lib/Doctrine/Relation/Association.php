@@ -120,10 +120,10 @@ class Doctrine_Relation_Association extends Doctrine_Relation
      *
      * fetches a component related to given record
      *
-     * @param Doctrine_Record $record
-     * @return Doctrine_Record|Doctrine_Collection
+     * @param sfDoctrineRecord $record
+     * @return sfDoctrineRecord|Doctrine_Collection
      */
-    public function fetchRelatedFor(Doctrine_Record $record)
+    public function fetchRelatedFor(sfDoctrineRecord $record)
     {
         $id = $record->getIncremented();
         if (empty($id) || ! $this->definition['table']->getAttribute(Doctrine_Core::ATTR_LOAD_REFERENCES)) {

@@ -119,7 +119,7 @@ class Doctrine_Node_NestedSet_PreOrderIterator implements Iterator
     /**
      * returns the current record
      *
-     * @return Doctrine_Record
+     * @return sfDoctrineRecord
      */
     public function current()
     {

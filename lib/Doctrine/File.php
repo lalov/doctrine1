@@ -30,7 +30,7 @@
  * @link        www.doctrine-project.org
  * @since       1.0
  */
-class Doctrine_File extends Doctrine_Record
+class Doctrine_File extends sfDoctrineRecord
 {
     public function setTableDefinition()
     {

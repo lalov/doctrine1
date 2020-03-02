@@ -51,17 +51,17 @@ abstract class Doctrine_Record_Filter
 
     /**
      * filterSet
-     * defines an implementation for filtering the set() method of Doctrine_Record
+     * defines an implementation for filtering the set() method of sfDoctrineRecord
      *
      * @param mixed $name                       name of the property or related component
      */
-    abstract public function filterSet(Doctrine_Record $record, $name, $value);
+    abstract public function filterSet(sfDoctrineRecord $record, $name, $value);
 
     /**
      * filterGet
-     * defines an implementation for filtering the get() method of Doctrine_Record
+     * defines an implementation for filtering the get() method of sfDoctrineRecord
      *
      * @param mixed $name                       name of the property or related component
      */
-    abstract public function filterGet(Doctrine_Record $record, $name);
+    abstract public function filterGet(sfDoctrineRecord $record, $name);
 }

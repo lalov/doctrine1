@@ -82,9 +82,9 @@ class Doctrine_Tree_NestedSet extends Doctrine_Tree implements Doctrine_Tree_Int
      * the records id will be assigned to the root id. You must use numeric columns for the id
      * and root id columns.
      *
-     * @param object $record        instance of Doctrine_Record
+     * @param object $record        instance of sfDoctrineRecord
      */
-    public function createRoot(Doctrine_Record $record = null)
+    public function createRoot(sfDoctrineRecord $record = null)
     {
         if ($this->getAttribute('hasManyRoots')) {
             if ( ! $record || ( ! $record->exists() && ! $record->getNode()->getRootValue())
@@ -200,7 +200,7 @@ class Doctrine_Tree_NestedSet extends Doctrine_Tree implements Doctrine_Tree_Int
     public function fetchBranch($pk, $options = array(), $hydrationMode = null)
     {
         $record = $this->table->find($pk);
-        if ( ! ($record instanceof Doctrine_Record) || !$record->exists()) {
+        if ( ! ($record instanceof sfDoctrineRecord) || !$record->exists()) {
             // TODO: if record doesn't exist, throw exception or similar?
             return false;
         }

@@ -69,10 +69,10 @@ class Doctrine_Table_Repository implements Countable, IteratorAggregate
     /**
      * add
      *
-     * @param Doctrine_Record $record       record to be added into registry
+     * @param DoctrineLaravelModel $record       record to be added into registry
      * @return boolean
      */
-    public function add(Doctrine_Record $record)
+    public function add(DoctrineLaravelModel $record)
     {
         $oid = $record->getOID();
 

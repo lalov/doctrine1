@@ -32,9 +32,9 @@
  */
 class Doctrine_Task_GenerateModelsYaml extends Doctrine_Task
 {
-    public $description          =   'Generates your Doctrine_Record definitions from a Yaml schema file',
+    public $description          =   'Generates your sfDoctrineRecord definitions from a Yaml schema file',
            $requiredArguments    =   array('yaml_schema_path'   =>  'Specify the complete directory path to your yaml schema files.',
-                                           'models_path'        =>  'Specify complete path to your Doctrine_Record definitions.'),
+                                           'models_path'        =>  'Specify complete path to your sfDoctrineRecord definitions.'),
            $optionalArguments    =   array('generate_models_options'    =>  'Array of options for generating models');
     
     public function execute()

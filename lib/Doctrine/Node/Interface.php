@@ -63,42 +63,42 @@ interface Doctrine_Node_Interface {
     /**
      * gets record of prev sibling or empty record
      *
-     * @return Doctrine_Record
+     * @return sfDoctrineRecord
      */
     public function getPrevSibling();
 
     /**
      * gets record of next sibling or empty record
      *
-     * @return Doctrine_Record
+     * @return sfDoctrineRecord
      */
     public function getNextSibling();
 
     /**
      * gets siblings for node
      *
-     * @return array                            array of sibling Doctrine_Record objects
+     * @return array                            array of sibling sfDoctrineRecord objects
      */
     public function getSiblings($includeNode = false);
 
     /**
      * gets record of first child or empty record
      *
-     * @return Doctrine_Record
+     * @return sfDoctrineRecord
      */
     public function getFirstChild();
 
     /**
      * gets record of last child or empty record
      *
-     * @return Doctrine_Record
+     * @return sfDoctrineRecord
      */
     public function getLastChild();
 
     /**
      * gets children for node (direct descendants only)
      *
-     * @return array                            array of sibling Doctrine_Record objects
+     * @return array                            array of sibling sfDoctrineRecord objects
      */
     public function getChildren();
 
@@ -112,7 +112,7 @@ interface Doctrine_Node_Interface {
     /**
      * gets record of parent or empty record
      *
-     * @return Doctrine_Record
+     * @return sfDoctrineRecord
      */
     public function getParent();
 
@@ -158,65 +158,65 @@ interface Doctrine_Node_Interface {
      *
      * @return bool
      */
-    public function insertAsParentOf(Doctrine_Record $dest);
+    public function insertAsParentOf(sfDoctrineRecord $dest);
 
     /**
      * inserts node as previous sibling of dest record
      *
      * @return bool
      */
-    public function insertAsPrevSiblingOf(Doctrine_Record $dest);
+    public function insertAsPrevSiblingOf(sfDoctrineRecord $dest);
 
     /**
      * inserts node as next sibling of dest record
      *
      * @return bool
      */
-    public function insertAsNextSiblingOf(Doctrine_Record $dest);
+    public function insertAsNextSiblingOf(sfDoctrineRecord $dest);
 
     /**
      * inserts node as first child of dest record
      *
      * @return bool
      */
-    public function insertAsFirstChildOf(Doctrine_Record $dest);
+    public function insertAsFirstChildOf(sfDoctrineRecord $dest);
 
     /**
      * inserts node as first child of dest record
      *
      * @return bool
      */
-    public function insertAsLastChildOf(Doctrine_Record $dest);
+    public function insertAsLastChildOf(sfDoctrineRecord $dest);
 
     /**
      * moves node as prev sibling of dest record
      *
      */  
-    public function moveAsPrevSiblingOf(Doctrine_Record $dest);
+    public function moveAsPrevSiblingOf(sfDoctrineRecord $dest);
 
     /**
      * moves node as next sibling of dest record
      *
      */
-    public function moveAsNextSiblingOf(Doctrine_Record $dest);
+    public function moveAsNextSiblingOf(sfDoctrineRecord $dest);
 
     /**
      * moves node as first child of dest record
      *
      */
-    public function moveAsFirstChildOf(Doctrine_Record $dest);
+    public function moveAsFirstChildOf(sfDoctrineRecord $dest);
 
     /**
      * moves node as last child of dest record
      *
      */
-    public function moveAsLastChildOf(Doctrine_Record $dest);
+    public function moveAsLastChildOf(sfDoctrineRecord $dest);
 
     /**
      * adds node as last child of record
      *
      */
-    public function addChild(Doctrine_Record $record);
+    public function addChild(sfDoctrineRecord $record);
 
     /**
      * determines if node is leaf
@@ -237,21 +237,21 @@ interface Doctrine_Node_Interface {
      *
      * @return bool
      */
-    public function isEqualTo(Doctrine_Record $subj);
+    public function isEqualTo(sfDoctrineRecord $subj);
 
     /**
      * determines if node is child of subject node
      *
      * @return bool
      */
-    public function isDescendantOf(Doctrine_Record $subj);
+    public function isDescendantOf(sfDoctrineRecord $subj);
 
     /**
      * determines if node is child of or sibling to subject node
      *
      * @return bool
      */
-    public function isDescendantOfOrEqualTo(Doctrine_Record $subj);
+    public function isDescendantOfOrEqualTo(sfDoctrineRecord $subj);
 
     /**
      * determines if node is valid

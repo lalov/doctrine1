@@ -22,7 +22,7 @@
 /**
  * Doctrine_Import_Schema
  *
- * Class for importing Doctrine_Record classes from a yaml schema definition
+ * Class for importing sfDoctrineRecord classes from a yaml schema definition
  *
  * @package     Doctrine
  * @subpackage  Import
@@ -76,7 +76,7 @@ class Doctrine_Import_Schema
                                 'generateAccessors'     =>  false,
                                 'baseClassPrefix'       =>  'Base',
                                 'baseClassesDirectory'  =>  'generated',
-                                'baseClassName'         =>  'Doctrine_Record');
+                                'baseClassName'         =>  'sfDoctrineRecord');
 
     /**
      * _validation
@@ -255,11 +255,11 @@ class Doctrine_Import_Schema
     /**
      * importSchema
      *
-     * A method to import a Schema and translate it into a Doctrine_Record object
+     * A method to import a Schema and translate it into a sfDoctrineRecord object
      *
      * @param  string $schema       The file containing the XML schema
      * @param  string $format       Format of the schema file
-     * @param  string $directory    The directory where the Doctrine_Record class will be written
+     * @param  string $directory    The directory where the sfDoctrineRecord class will be written
      * @param  array  $models       Optional array of models to import
      *
      * @return void

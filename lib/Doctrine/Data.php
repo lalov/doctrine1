@@ -225,13 +225,13 @@ class Doctrine_Data
     /**
      * isRelation
      *
-     * Check if a fieldName on a Doctrine_Record is a relation, if it is we return that relationData
+     * Check if a fieldName on a sfDoctrineRecord is a relation, if it is we return that relationData
      * 
      * @param string $Doctrine_Record 
      * @param string $fieldName 
      * @return void
      */
-    public function isRelation(Doctrine_Record $record, $fieldName)
+    public function isRelation(sfDoctrineRecord $record, $fieldName)
     {
         $relations = $record->getTable()->getRelations();
         
