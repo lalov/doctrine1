@@ -76,7 +76,7 @@ class Doctrine_Template_Listener_SoftDelete extends Doctrine_Record_Listener
         $invoker = $event->getInvoker();
         
         if ($this->_options['type'] == 'timestamp') {
-            $invoker->$name = date('Y-m-d H:i:s', time());
+            $invoker->$name = date('Y-m-d H:i:s', now()->timestamp);
         } else if ($this->_options['type'] == 'boolean') {
             $invoker->$name = true;
         }
@@ -115,7 +115,7 @@ class Doctrine_Template_Listener_SoftDelete extends Doctrine_Record_Listener
             $query->from('')->update($params['component']['table']->getOption('name') . ' ' . $params['alias']);
             
             if ($this->_options['type'] == 'timestamp') {
-                $query->set($field, '?', date('Y-m-d H:i:s', time()));
+                $query->set($field, '?', date('Y-m-d H:i:s', now()->timestamp));
                 $query->addWhere($field . ' IS NULL');
             } else if ($this->_options['type'] == 'boolean') {
                 $query->set($field, $query->getConnection()->convertBooleans(true));

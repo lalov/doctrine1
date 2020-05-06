@@ -127,11 +127,11 @@ class Doctrine_Template_Listener_Timestampable extends Doctrine_Record_Listener
             return new Doctrine_Expression($options['expression'], $conn);
         } else {
             if ($options['type'] == 'date') {
-                return date($options['format'], time());
+                return date($options['format'], now()->timestamp);
             } else if ($options['type'] == 'timestamp') {
-                return date($options['format'], time());
+                return date($options['format'], now()->timestamp);
             } else {
-                return time();
+                return now()->timestamp;
             }
         }
     }
