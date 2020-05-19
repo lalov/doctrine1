@@ -33,6 +33,11 @@
  */
 class Doctrine_Collection extends Doctrine_Access implements Countable, IteratorAggregate, Serializable
 {
+
+    public function collect(){
+        return collect($this->getData());
+    }
+
     /**
      * @var array $data                     an array containing the records of this collection
      */
