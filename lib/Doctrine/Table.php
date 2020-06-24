@@ -1710,7 +1710,7 @@ class Doctrine_Table extends Doctrine_Configurable implements Countable
     public function findOneBy($fieldName, $value, $hydrationMode = null)
     {
         return $this->createQuery('dctrn_find')
-            ->where($this->buildFindByWhere($fieldName), (array) $value)
+            ->where($this->buildFindByWhere($fieldName), (array) (string)$value)
             ->limit(1)
             ->fetchOne(array(), $hydrationMode);
     }

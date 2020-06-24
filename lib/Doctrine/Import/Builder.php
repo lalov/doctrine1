@@ -314,6 +314,7 @@ class Doctrine_Import_Builder extends Doctrine_Builder {
             . '%s' . PHP_EOL
             . '%s' . PHP_EOL
             . '%s' . PHP_EOL
+            . '%s' . PHP_EOL
             . '}';
     }
 
@@ -581,6 +582,10 @@ class Doctrine_Import_Builder extends Doctrine_Builder {
                 unset($options['default']);
             }
 
+            if(isset($options['default']) and \Illuminate\Support\Str::contains($options['default'], ['CURRENT_TIMESTAMP', 'NOW'])){
+                unset($options['default']);
+            }
+
             // Remove null and empty array values
             foreach ($options as $key => $value) {
                 if (is_null($value) || (is_array($value) && empty($value))) {
@@ -596,6 +601,34 @@ class Doctrine_Import_Builder extends Doctrine_Builder {
         }
 
         return $build;
+    }
+
+    public function buildCasts(array $columns) {
+        $casts = [];
+        foreach ($columns as $name => $column) {
+            // Update column name if an alias is provided
+            if (isset($column['alias']) && !isset($column['name'])) {
+                $column['name'] = $name . ' as ' . $column['alias'];
+            }
+            $columnName = isset($column['name']) ? $column['name'] : $name;
+            switch ($column['type']) {
+                case 'decimal':
+                    $casts[$columnName] = $column['type'] . ':'. $column['scale'];
+                    break;
+                case 'clob':
+                    break;
+                case 'timestamp':
+                    // timestamp in the db, not an unix timestamp
+                    $casts[$columnName] = 'datetime';
+                    break;
+                default:
+                    $casts[$columnName] = $column['type'];
+            }
+
+        }
+        $casts = PHP_EOL . ' protected $casts = ' . $this->varExport($casts) . ';'. PHP_EOL;
+
+        return $casts;
     }
 
     /*
@@ -960,6 +993,8 @@ class Doctrine_Import_Builder extends Doctrine_Builder {
         }
         list($codeProperties, $eloquentDefinitionCode) = $this->buildEloquentRelations($definition);
 
+        $eloquentCasts = $this->buildCasts($definition['columns']);
+
         $setUpCode .= $this->buildToString($definition);
 
         $docs = PHP_EOL . $this->buildPhpDocs($definition);
@@ -969,6 +1004,7 @@ class Doctrine_Import_Builder extends Doctrine_Builder {
             $abstract,
             $className,
             $extends,
+            $eloquentCasts,
             $tableDefinitionCode,
             $eloquentDefinitionCode,
             $setUpCode);
