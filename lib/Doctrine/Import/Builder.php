@@ -620,6 +620,7 @@ class Doctrine_Import_Builder extends Doctrine_Builder {
                     $casts[$columnName] = 'datetime';
                     break;
                 case 'integer':
+                case 'string':
                 case 'real':
                 case 'float':
                 case 'double':
