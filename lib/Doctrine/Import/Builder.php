@@ -615,14 +615,21 @@ class Doctrine_Import_Builder extends Doctrine_Builder {
                 case 'decimal':
                     $casts[$columnName] = $column['type'] . ':'. $column['scale'];
                     break;
-                case 'clob':
-                case 'time':    
-                    break;
                 case 'timestamp':
                     // timestamp in the db, not an unix timestamp
                     $casts[$columnName] = 'datetime';
                     break;
-                default:
+                case 'integer':
+                case 'real':
+                case 'float':
+                case 'double':
+                case 'boolean':
+                case 'object':
+                case 'array':
+                case 'collection':
+                case 'date':
+                case 'datetime':
+                case 'timestamp':
                     $casts[$columnName] = $column['type'];
             }
 
