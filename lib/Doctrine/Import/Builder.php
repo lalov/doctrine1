@@ -616,6 +616,7 @@ class Doctrine_Import_Builder extends Doctrine_Builder {
                     $casts[$columnName] = $column['type'] . ':'. $column['scale'];
                     break;
                 case 'clob':
+                case 'time':    
                     break;
                 case 'timestamp':
                     // timestamp in the db, not an unix timestamp
