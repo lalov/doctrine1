@@ -154,7 +154,7 @@ class Doctrine_Node_NestedSet_PreOrderIterator implements Iterator
         return ($this->index < $this->count);
     }
 
-    public function count()
+    public function count(): int
     {
         return $this->count;
     }

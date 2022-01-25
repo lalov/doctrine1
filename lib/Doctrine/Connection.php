@@ -1160,7 +1160,7 @@ abstract class Doctrine_Connection extends Doctrine_Configurable implements Coun
      *
      * @return integer
      */
-    public function count()
+    public function count(): int
     {
         return $this->_count;
     }

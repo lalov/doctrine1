@@ -169,12 +169,12 @@ abstract class Doctrine_Relation implements ArrayAccess
         return $this->definition['equal'];
     }
 
-    public function offsetExists($offset)
+    public function offsetExists($offset): bool
     {
         return isset($this->definition[$offset]);
     }
 
-    public function offsetGet($offset)
+    #[ReturnTypeWillChange] public function offsetGet($offset)
     {
         if (isset($this->definition[$offset])) {
             return $this->definition[$offset];
