@@ -31,7 +31,7 @@
  * @version     $Revision: 7686 $
  * @author      Konsta Vesterinen <kvesteri@cc.hut.fi>
  */
-class Doctrine_Collection extends Doctrine_Access implements Countable, IteratorAggregate, Serializable
+class Doctrine_Collection extends Doctrine_Access implements Countable, IteratorAggregate
 {
 
     public function collect(){
@@ -150,10 +150,9 @@ class Doctrine_Collection extends Doctrine_Access implements Countable, Iterator
     /**
      * This method is automatically called when this Doctrine_Collection is serialized
      *
-     * @return array
+     * @return string
      */
-    public function serialize()
-    {
+    public function __serialize():array{
         $vars = get_object_vars($this);
 
         unset($vars['reference']);
@@ -165,7 +164,7 @@ class Doctrine_Collection extends Doctrine_Access implements Countable, Iterator
 
         $vars['_table'] = $vars['_table']->getComponentName();
 
-        return serialize($vars);
+        return $vars;
     }
 
     /**
@@ -173,12 +172,12 @@ class Doctrine_Collection extends Doctrine_Access implements Countable, Iterator
      *
      * @return void
      */
-    public function unserialize($serialized)
+    public function __unserialize(array $serialized):void
     {
         $manager    = Doctrine_Manager::getInstance();
         $connection    = $manager->getCurrentConnection();
 
-        $array = unserialize($serialized);
+        $array = ($serialized);
 
         foreach ($array as $name => $values) {
             $this->$name = $values;

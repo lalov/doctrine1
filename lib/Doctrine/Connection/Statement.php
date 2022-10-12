@@ -39,7 +39,7 @@ class Doctrine_Connection_Statement implements Doctrine_Adapter_Statement_Interf
     protected $_conn;
 
     /**
-     * @var mixed $_stmt                    PDOStatement object, boolean false or Doctrine_Adapter_Statement object
+     * @var PDOStatement|bool|Doctrine_Adapter_Statement $_stmt                    PDOStatement object, boolean false or Doctrine_Adapter_Statement object
      */
     protected $_stmt;
 
@@ -300,7 +300,7 @@ class Doctrine_Connection_Statement implements Doctrine_Adapter_Statement_Interf
      */
     public function fetch($fetchMode = Doctrine_Core::FETCH_BOTH,
                           $cursorOrientation = Doctrine_Core::FETCH_ORI_NEXT,
-                          $cursorOffset = null)
+                          $cursorOffset = 0)
     {
         $event = new Doctrine_Event($this, Doctrine_Event::STMT_FETCH, $this->getQuery());
 
