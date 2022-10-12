@@ -102,7 +102,7 @@ class Doctrine_Table_Repository implements Countable, IteratorAggregate
      * Doctrine_Registry implements interface Countable
      * @return integer                      the number of records this registry has
      */
-    public function count()
+    public function count(): int
     {
         return count($this->registry);
     }
@@ -111,7 +111,7 @@ class Doctrine_Table_Repository implements Countable, IteratorAggregate
      * @param integer $oid                  object identifier
      * @return boolean                      whether ot not the operation was successful
      */
-    public function evict($oid)
+    public function evict($oid): bool
     {
         if ( ! isset($this->registry[$oid])) {
             return false;
@@ -138,7 +138,7 @@ class Doctrine_Table_Repository implements Countable, IteratorAggregate
      * getIterator
      * @return ArrayIterator
      */
-    public function getIterator()
+    public function getIterator(): Traversable
     {
         return new ArrayIterator($this->registry);
     }

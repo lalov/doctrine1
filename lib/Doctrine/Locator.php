@@ -190,7 +190,7 @@ class Doctrine_Locator implements Countable, IteratorAggregate
      * @return ArrayIterator    an iterator for iterating through 
      *                          all bound resources
      */
-    public function getIterator()
+    public function getIterator(): Traversable
     {
         return new ArrayIterator($this->_resources);
     }

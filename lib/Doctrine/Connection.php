@@ -1150,7 +1150,7 @@ abstract class Doctrine_Connection extends Doctrine_Configurable implements Coun
      *
      * @return ArrayIterator        SPL ArrayIterator object
      */
-    public function getIterator()
+    public function getIterator(): Traversable
     {
         return new ArrayIterator($this->tables);
     }

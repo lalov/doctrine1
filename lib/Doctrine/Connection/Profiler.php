@@ -134,7 +134,7 @@ class Doctrine_Connection_Profiler implements Doctrine_Overloadable, IteratorAgg
      *
      * @return ArrayIterator
      */
-    public function getIterator()
+    public function getIterator(): Traversable
     {
         return new ArrayIterator($this->events);
     }

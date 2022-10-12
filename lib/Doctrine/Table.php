@@ -552,7 +552,7 @@ class Doctrine_Table extends Doctrine_Configurable implements Countable
     /**
      * Checks whether a column is inherited from a component further up in the hierarchy.
      *
-     * @param $columnName  The column name
+     * @param $columnName string The column name
      * @return boolean     TRUE if column is inherited, FALSE otherwise.
      */
     public function isInheritedColumn($columnName)
@@ -1952,7 +1952,7 @@ class Doctrine_Table extends Doctrine_Configurable implements Countable
      *
      * @return integer number of records in the table
      */
-    public function count()
+    public function count(): int
     {
         return $this->createQuery()->count();
     }

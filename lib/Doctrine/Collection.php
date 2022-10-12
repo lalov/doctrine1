@@ -424,7 +424,7 @@ class Doctrine_Collection extends Doctrine_Access implements Countable, Iterator
      *
      * @return integer
      */
-    public function count()
+    public function count(): int
     {
         return count($this->data);
     }
@@ -1028,7 +1028,7 @@ class Doctrine_Collection extends Doctrine_Access implements Countable, Iterator
      *
      * @return Iterator
      */
-    public function getIterator()
+    public function getIterator(): Traversable
     {
         $data = $this->data;
         return new ArrayIterator($data);
