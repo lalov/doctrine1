@@ -472,9 +472,9 @@ class Doctrine_Import_Builder extends Doctrine_Builder {
                 }
 
                 if (!empty($a)) {
-                    $ret[$i] .= ', ' . 'array(' . PHP_EOL . str_repeat(' ', 13);
+                    $ret[$i] .= ', ' . '[' . PHP_EOL . str_repeat(' ', 13);
                     $length = strlen($ret[$i]);
-                    $ret[$i] .= implode(',' . PHP_EOL . str_repeat(' ', 13), $a) . ')';
+                    $ret[$i] .= implode(',' . PHP_EOL . str_repeat(' ', 13), $a) . ']';
                 }
 
                 $ret[$i] .= ');' . PHP_EOL;
@@ -799,7 +799,7 @@ class Doctrine_Import_Builder extends Doctrine_Builder {
      * @param array $emittedActAs contains on output an array of actAs command to be appended to output
      * @return string actAs full definition
      */
-    private function innerBuildActAs($actAs, int $level, string $parent, array &$emittedActAs) {
+    private function innerBuildActAs($actAs, int $level, ?string $parent, array &$emittedActAs) {
         // rewrite special case of actAs: [Behavior] which gave [0] => Behavior
         if (is_array($actAs) && isset($actAs[0]) && !is_array($actAs[0])) {
             $tmp = array();
@@ -1147,6 +1147,7 @@ class Doctrine_Import_Builder extends Doctrine_Builder {
             false,
             $className,
             $extends,
+            null,
             null,
             $code,
             null

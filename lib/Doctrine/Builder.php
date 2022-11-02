@@ -42,14 +42,15 @@ class Doctrine_Builder
      */
     public function varExport($var)
     {
+        if (!is_array($var)) return var_export($var, true);
         $export = var_export($var, true);
-        $export = str_replace("\n", PHP_EOL . str_repeat(' ', 50), $export);
-        $export = str_replace('  ', ' ', $export);
-        $export = str_replace('array (', 'array(', $export);
-        $export = str_replace('array( ', 'array(', $export);
-        $export = str_replace(',)', ')', $export);
-        $export = str_replace(', )', ')', $export);
-        $export = str_replace('  ', ' ', $export);
+        $export = preg_replace("/^([ ]*)(.*)/m", '$1$1$2', $export);
+        $array = preg_split("/\r\n|\n|\r/", $export);
+        $array = preg_replace(["/\s*array\s\($/", "/\)(,)?$/", "/\s=>\s$/"], [NULL, ']$1', ' => ['], $array);
+        $export = join(PHP_EOL, array_filter(["["] + $array));
+        $export = str_replace("\n", PHP_EOL . str_repeat(' ', 9), $export);
+        $export = str_replace('];', '    ];', $export);
+        $export = str_replace(']);', '    ]);', $export);
 
         return $export;
     }

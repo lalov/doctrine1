@@ -266,7 +266,7 @@ class Doctrine_Connection_Statement implements Doctrine_Adapter_Statement_Interf
         } catch (Doctrine_Adapter_Exception $e) {
         }
 
-        $this->_conn->rethrowException($e, $this);
+        $this->_conn->rethrowException($e, $this, $this->getQuery());
 
         return false;
     }
