@@ -66,6 +66,8 @@ abstract class Doctrine_Connection extends Doctrine_Configurable implements Coun
      */
     protected $tables           = array();
 
+    protected $exported        = array();
+
     /**
      * $_name
      *
