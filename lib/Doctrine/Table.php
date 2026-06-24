@@ -2387,6 +2387,34 @@ class Doctrine_Table extends Doctrine_Configurable implements Countable
     }
 
     /**
+     * A Doctrine_Table is a per-connection singleton holding live, unserializable
+     * state (the PDO connection, prepared statements, a sample record carrying
+     * Eloquent closures). It reaches the serialization graph as an Eloquent
+     * query's `from` clause, because getTable() returns this object rather than
+     * the string table name. Persist only the component name and re-resolve the
+     * live singleton on wakeup so query/cache/queue serialization stays safe.
+     * Mirrors AbstractDoctrineLaravelRecord::__unserialize() for the record side.
+     *
+     * @return array{componentName: string}
+     */
+    public function __serialize(): array
+    {
+        return ['componentName' => $this->getComponentName()];
+    }
+
+    /**
+     * @param  array{componentName: string}  $data
+     */
+    public function __unserialize(array $data): void
+    {
+        $table = Doctrine_Core::getTable($data['componentName']);
+
+        foreach (get_object_vars($table) as $property => $value) {
+            $this->$property = $value;
+        }
+    }
+
+    /**
      * Gets the subclass of sfDoctrineRecord that belongs to this table.
      *
      * @return string
